@@ -1,9 +1,11 @@
+// src/Components/SearchBar.tsx
 import React from 'react';
+import { Input, Box } from '@chakra-ui/react';
 
 const SearchBar: React.FC = () => (
-  <div className="search-bar">
-    <input type="text" placeholder="Search for tailors near you..." />
-  </div>
+  <Box className="search-bar" margin="1rem">
+    <Input placeholder="Search for tailors near you..." size="lg" />
+  </Box>
 );
 
 export default SearchBar;
