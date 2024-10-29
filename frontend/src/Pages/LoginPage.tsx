@@ -1,33 +1,41 @@
 // src/LoginPage.tsx
 import React from 'react';
-import { Card, Button, Input, Stack } from '@chakra-ui/react';
-import {Field} from '../Components/ui/field';
+import { Input, Button, Box, Stack, Text } from '@chakra-ui/react';
+import { Field } from '../Components/ui/field';
 import { PasswordInput } from "../Components/ui/password-input";
+import { useNavigate } from 'react-router-dom';
+
 
 const LoginPage: React.FC = () => {
+
+  const navigate = useNavigate();
+
+  const handleCancel = () => {
+    navigate('/');
+  }
   return (
-    <Card.Root maxW="sm">
-    <Card.Header>
-      <Card.Title>Sign In</Card.Title>
-      <Card.Description>
-        Enter your credentials in the form below
-      </Card.Description>
-    </Card.Header>
-    <Card.Body>
-      <Stack gap="4" w="full">
-        <Field label="Username">
-          <Input placeholder='username'/>
-        </Field>
-        <Field label="Password">
-          <PasswordInput placeholder='johndoe@xyz.com'/>
-        </Field>
-      </Stack>
-    </Card.Body>
-    <Card.Footer justifyContent="flex-end">
-      <Button variant="outline">Cancel</Button>
-      <Button variant="solid">Sign in</Button>
-    </Card.Footer>
-  </Card.Root>
+    <div className="login-container">
+      <Box className="card-root">
+        <div className="card-header">
+          <Text as="h2" className="card-title">Sign In</Text>
+          <Text className="card-description">Please enter your credentials below.</Text>
+        </div>
+        <div className="card-body">
+          <Stack spacing={4}>
+            <Field label="Username">
+              <Input className="input-field" placeholder="Enter your username" />
+            </Field>
+            <Field label="Password">
+              <PasswordInput className="input-field" placeholder="Enter your password" />
+            </Field>
+          </Stack>
+        </div>
+        <div className="card-footer">
+          <Button className="button button-solid">Sign In</Button>
+          <Button className="button button-outline" onClick={handleCancel}>Cancel</Button>
+        </div>
+      </Box>
+    </div>
   );
 };
 
