@@ -4,6 +4,7 @@ import { Input, Button, Box, Stack, Text } from '@chakra-ui/react';
 import { Field } from '../Components/ui/field';
 import { PasswordInput } from "../Components/ui/password-input";
 import { useNavigate } from 'react-router-dom';
+import Footer from '../Components/Footer';
 
 const RegistrationPage: React.FC = () => {
 
@@ -36,10 +37,11 @@ const RegistrationPage: React.FC = () => {
           </Stack>
         </div>
         <div className="card-footer">
-          <Button className="button button-solid">Register</Button>
+          <Button className="button button-solid" >Register</Button>
           <Button className="button button-outline" onClick={handleCancel}>Cancel</Button>
         </div>
       </Box>
+      <Footer/>
     </div>
   );
 };

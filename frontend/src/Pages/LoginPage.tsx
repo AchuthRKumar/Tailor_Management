@@ -4,6 +4,7 @@ import { Input, Button, Box, Stack, Text } from '@chakra-ui/react';
 import { Field } from '../Components/ui/field';
 import { PasswordInput } from "../Components/ui/password-input";
 import { useNavigate } from 'react-router-dom';
+import Footer from '../Components/Footer';
 
 
 const LoginPage: React.FC = () => {
@@ -12,6 +13,10 @@ const LoginPage: React.FC = () => {
 
   const handleCancel = () => {
     navigate('/');
+  };
+
+  const handleSignIn = () => {
+    navigate('/thome');
   }
   return (
     <div className="login-container">
@@ -31,10 +36,11 @@ const LoginPage: React.FC = () => {
           </Stack>
         </div>
         <div className="card-footer">
-          <Button className="button button-solid">Sign In</Button>
+          <Button className="button button-solid" onClick={handleSignIn}>Sign In</Button>
           <Button className="button button-outline" onClick={handleCancel}>Cancel</Button>
         </div>
       </Box>
+      <Footer />
     </div>
   );
 };
