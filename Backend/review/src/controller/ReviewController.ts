@@ -1,5 +1,6 @@
 import {Request, Response} from 'express';
 import Review from '../model/Review';
+
 //Creating a new review
 export const addReview = async (req: Request, res: Response) => {
     try{
@@ -11,7 +12,7 @@ export const addReview = async (req: Request, res: Response) => {
     }
 };
 
-//Get all review for a tailor
+//Get all review for a shop
 export const getReviews = async( req: Request, res: Response) => {
     console.log(req.params);
     try{

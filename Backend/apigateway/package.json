@@ -1,7 +1,6 @@
 {
-  "name": "order",
+  "name": "apigateway",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "ts-node src/index.ts",
@@ -10,17 +9,17 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "description": "",
   "dependencies": {
-    "axios": "^1.7.7",
-    "body-parser": "^1.20.3",
-    "dotenv": "^16.4.5",
+    "cors": "^2.8.5",
     "express": "^4.21.1",
+    "http-proxy-middleware": "^3.0.3",
     "mongodb": "^6.10.0",
     "mongoose": "^8.7.3"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
-    "@types/node": "^22.8.1",
+    "@types/node": "^22.8.2",
     "nodemon": "^3.1.7",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3"

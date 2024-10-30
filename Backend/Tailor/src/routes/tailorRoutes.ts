@@ -4,10 +4,11 @@ import { TailorController } from '../controllers/tailorController';
 
 const router = Router();
 
-router.get('/tailors', TailorController.getAllTailors);
-router.get('/tailors/:tailorId', TailorController.getTailorById);
-router.post('/tailors', TailorController.createTailor);
-router.put('/tailors/:tailorId', TailorController.updateTailor);
-router.delete('/tailors/:tailorId', TailorController.deleteTailor);
+router.get('/', TailorController.getAllTailors);
+router.get('/:tailorId', TailorController.getTailorById);
+router.post('/', TailorController.createTailor);
+router.put('/:tailorId', TailorController.updateTailor);
+router.delete('/:tailorId', TailorController.deleteTailor);
+router.get('/:tailorId/review', TailorController.getReviews);
 
 export default router;
