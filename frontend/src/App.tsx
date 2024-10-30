@@ -6,6 +6,7 @@ import LoginPage from './Pages/LoginPage';
 import RegisterPage from './Pages/RegisterPage';
 import { Provider } from './Components/ui/provider'; 
 import TailorHome from './Pages/TailorHome';
+import TailorReportsPage from './Pages/TailorReportsPage';
 
 const App: React.FC = () => {
     return (
@@ -16,6 +17,7 @@ const App: React.FC = () => {
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/register" element={<RegisterPage />} />
                     <Route path="/thome" element={<TailorHome />} />
+                    <Route path="/treports" element={<TailorReportsPage/>} />
                 </Routes>
             </Router>
         </Provider>
