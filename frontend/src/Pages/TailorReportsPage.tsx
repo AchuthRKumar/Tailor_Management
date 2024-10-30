@@ -3,6 +3,7 @@ import React from 'react';
 import { Box, Container, Heading, SimpleGrid, Text } from '@chakra-ui/react';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+import TopBarTailor from '../Components/TopBarTailor';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -38,6 +39,8 @@ const TailorReportsPage: React.FC = () => {
   };
 
   return (
+    <>
+       <TopBarTailor />
     <Box bg="gray.50" minH="100vh">
       <Container maxW="container.lg" mt={6} p={4}>
         <Heading as="h1" size="2xl" mb={4} textAlign="center" color="teal.600">
@@ -73,6 +76,8 @@ const TailorReportsPage: React.FC = () => {
         </Box>
       </Container>
     </Box>
+    </>
+   
   );
 };
 

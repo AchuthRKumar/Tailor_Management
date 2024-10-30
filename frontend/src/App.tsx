@@ -7,6 +7,8 @@ import RegisterPage from './Pages/RegisterPage';
 import { Provider } from './Components/ui/provider'; 
 import TailorHome from './Pages/TailorHome';
 import TailorReportsPage from './Pages/TailorReportsPage';
+import ShopListPage from './Pages/ShopListPage';
+import ShopDetailsPage from './Pages/ShopDetailsPage'; // Import the ShopDetailsPage
 
 const App: React.FC = () => {
     return (
@@ -17,7 +19,9 @@ const App: React.FC = () => {
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/register" element={<RegisterPage />} />
                     <Route path="/thome" element={<TailorHome />} />
-                    <Route path="/treports" element={<TailorReportsPage/>} />
+                    <Route path="/treports" element={<TailorReportsPage />} />
+                    <Route path="/shops" element={<ShopListPage />} />
+                    <Route path="/shop/:tailorId" element={<ShopDetailsPage />} /> 
                 </Routes>
             </Router>
         </Provider>
