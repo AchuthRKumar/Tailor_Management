@@ -1,11 +1,12 @@
-import express from 'express';
-import { addCustomer, getAll, updateCustomer, deleteCustomer} from '../controller/CustomerController';
+import { Router } from 'express';
+import { addCustomer, getAll, updateCustomer, deleteCustomer, getOrdersForCustomer } from '../controller/CustomerController';
 
-const router = express.Router();
+const router = Router();
 
-router.get('/', getAll);
 router.post('/', addCustomer);
-router.patch('/:id', updateCustomer as any);
+router.get('/', getAll);
+router.get('/:customerId/orders', getOrdersForCustomer); // New endpoint
+router.put('/:id', updateCustomer as any);
 router.delete('/:id', deleteCustomer as any);
 
 export default router;

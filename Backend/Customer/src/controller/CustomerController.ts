@@ -1,5 +1,7 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import Customer from '../model/Customer';
+import axios from 'axios';
+
 
 //Post a customer
 export const addCustomer = async(req: Request, res: Response) => {
@@ -54,5 +56,23 @@ export const deleteCustomer = async (req: Request, res: Response) => {
         res.json(deleteCustomer);
     } catch (error) {
         res.status(4004).json({error: "Cannot delete the customer"});
+    }
+};
+
+// Get all orders for a specific customer
+export const getOrdersForCustomer = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const customerId = req.params.customerId;
+        const orderServiceUrl = `http://localhost:5002/api/order/customer/${customerId}`;
+        const response = await axios.get(orderServiceUrl);
+        const orders = response.data;
+
+        res.status(200).json(orders);
+    } catch (error) {
+        if (error) {
+            res.status(400).json({ error: "Error fetching data of orders" });
+        } else {
+            res.status(500).json({ error: "Failed to fetch orders" });
+        }
     }
 };

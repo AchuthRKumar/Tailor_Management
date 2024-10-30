@@ -5,10 +5,10 @@ import orderRoutes from './routes/orderRoutes';
 import dbConnection from './config/db';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5002;
 
 app.use(bodyParser.json());
-app.use('/api', orderRoutes);
+app.use('/api/order', orderRoutes);
 
 // Connect to MongoDB
 dbConnection();

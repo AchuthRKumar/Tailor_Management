@@ -19,7 +19,11 @@
     "typescript": "^5.6.3"
   },
   "dependencies": {
+<<<<<<< HEAD
+    "axios": "^1.7.7",
+=======
     "dotenv": "^16.4.5",
+>>>>>>> 2e8d743d50dd2db19faee6ee896dd8601dd0202e
     "express": "^4.21.1",
     "mongodb": "^6.10.0",
     "mongoose": "^8.7.3"

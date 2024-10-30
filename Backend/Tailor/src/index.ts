@@ -5,10 +5,10 @@ import tailorRoutes from './routes/tailorRoutes';
 import dbConnection from './config/db';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5001;
 
 app.use(bodyParser.json());
-app.use('/api', tailorRoutes);
+app.use('/api/tailor', tailorRoutes);
 
 // Connect to MongoDB
 dbConnection();
