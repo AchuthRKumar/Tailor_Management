@@ -1,14 +1,19 @@
-// src/pages/Home.tsx
+// src/pages/TailorHomePage.tsx
 import React from 'react';
-import { HStack, Stack, Box, Container, Heading, Text } from '@chakra-ui/react';
+import { HStack, Stack, Box, Container, Heading, Text, Button } from '@chakra-ui/react';
 import OrdersTable from '../Components/OrderTailor';
 import TopBarTailor from '../Components/TopBarTailor';
-import ReportHome from '../Components/ReportHome';
 import Footer from '../Components/Footer';
 import { RadioCardItem, RadioCardRoot } from "../Components/ui/radio-card";
-
+import { useNavigate } from 'react-router-dom';
 
 const TailorHome: React.FC = () => {
+  const navigate = useNavigate();
+
+  const handleReportNavigation = () => {
+    navigate('/treports');
+  };
+
   return (
     <Box bg="gray.50" minH="100vh">
       <TopBarTailor />
@@ -42,7 +47,10 @@ const TailorHome: React.FC = () => {
             <Heading as="h2" size="lg" mb={4} color="teal.500">
               Reports
             </Heading>
-            <ReportHome />
+            <Text mb={4}>Analyze your business performance</Text>
+            <Button colorScheme="teal" onClick={handleReportNavigation}>
+              Go to Reports
+            </Button>
           </Box>
         </Stack>
       </Container>

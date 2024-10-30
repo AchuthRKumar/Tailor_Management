@@ -13,13 +13,17 @@
   "license": "ISC",
   "devDependencies": {
     "@types/express": "^5.0.0",
-    "@types/node": "^22.8.1",
+    "@types/node": "^22.8.4",
     "nodemon": "^3.1.7",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3"
   },
   "dependencies": {
+<<<<<<< HEAD
     "axios": "^1.7.7",
+=======
+    "dotenv": "^16.4.5",
+>>>>>>> 2e8d743d50dd2db19faee6ee896dd8601dd0202e
     "express": "^4.21.1",
     "mongodb": "^6.10.0",
     "mongoose": "^8.7.3"
