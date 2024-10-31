@@ -5,20 +5,22 @@ export interface Tailor extends Document {
     name: string;
     shopName: string;
     location: string;
-    contact: string;
-    rating: number;
+    email: string;
+    phone: string;
     revenue: number;
     ordersCount: number;
+    completed: number;
+    password: string;
 }
 
 const tailorSchema = new Schema<Tailor>({
     name: { type: String, required: true },
     shopName: { type: String, required: true },
-    location: { type: String, required: true },
-    contact: { type: String, required: true },
-    rating: { type: Number, default: 0 },
-    revenue: { type: Number, default: 0 },
+    location: { type: String, required: false },
+    phone: { type: String, required: true },
     ordersCount: { type: Number, default: 0 },
+    email: { type: String, required: true},
+    password: { type: String, required: true},
 });
 
 const TailorModel = model<Tailor>('Tailor', tailorSchema);

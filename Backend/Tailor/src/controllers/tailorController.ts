@@ -16,9 +16,9 @@ export const TailorController = {
 
     //Get details of a single talor-shop
     getTailorById: async (req: Request, res: Response) => {
-        const tailorId = req.params.tailorId;
+        const _id = req.params.tailorId;
         try {
-            const tailor = await TailorModel.findById(tailorId);
+            const tailor = await TailorModel.findById(_id);
             if (tailor) {
                 res.json(tailor);
             } else {
