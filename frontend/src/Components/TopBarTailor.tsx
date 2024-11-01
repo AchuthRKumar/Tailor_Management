@@ -6,7 +6,7 @@ import { Avatar } from './ui/avatar';
 const TopBar: React.FC = () => {
   return (
     <Flex as="header" padding="1rem" bg="teal.500" color="white" justifyContent="space-between">
-      <Heading as="h2"  fontFamily="'Playfair Display', serif" fontSize="2rem">TAILORNEST</Heading>
+      <Heading as="h2"  fontFamily="Newsreader" fontSize="2rem">TAILORNEST</Heading>
       <HStack spacing={4}>
         <Button variant="link" color="black">Home</Button>
         <Button variant="link" color="black">Reports</Button>

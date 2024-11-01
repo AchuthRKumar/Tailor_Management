@@ -23,7 +23,7 @@ const RegistrationTailorOrderPage: React.FC = () => {
     navigate('/'); // Navigate back to home or login
   };
 
-  const handleContinue = async () => {
+  const handleRegister = async () => {
     // Reset errors
     setErrors({});
     
@@ -121,14 +121,14 @@ const RegistrationTailorOrderPage: React.FC = () => {
           fontSize="24px"
           fontWeight="bold"
           mb="24px"
-          fontFamily="'Playfair Display', serif" // Use Playfair font
+          fontFamily="Poppins" // Use Playfair font
           color="black" // Set color to black
         >
           Register as Tailor
         </Text>
         <Text
           mb="20px"
-          fontFamily="Arial, sans-serif"
+          fontFamily="Poppins"
           fontSize="16px"
           color="gray.600"
         >
@@ -204,7 +204,7 @@ const RegistrationTailorOrderPage: React.FC = () => {
           fontSize="20px"
           fontWeight="bold"
           mb="16px"
-          fontFamily="'Playfair Display', serif" // Use Playfair font
+          fontFamily="Poppins" // Use Playfair font
           color="black" // Set color to black
         >
           What orders do you take?
@@ -216,7 +216,7 @@ const RegistrationTailorOrderPage: React.FC = () => {
               checked={selectedOptions.includes(option)}
               onCheckedChange={() => handleOptionChange(option)}
               fontSize="lg"
-              fontFamily="Arial, sans-serif"
+              fontFamily="Poppins"
               colorScheme="green" // Green color for checkboxes
             >
               {option}
@@ -227,7 +227,7 @@ const RegistrationTailorOrderPage: React.FC = () => {
           checked={acceptAll}
           onCheckedChange={handleAcceptAllChange}
           fontSize="md"
-          fontFamily="Arial, sans-serif"
+          fontFamily="Poppins"
           colorScheme="green" // Green color for "I accept all orders" checkbox
           mb="16px"
         >
@@ -238,7 +238,7 @@ const RegistrationTailorOrderPage: React.FC = () => {
             bg="#38a169" // Green button background
             color="white"
             _hover={{ bg: "#2f855a" }} // Darker green on hover
-            onClick={handleContinue}
+            onClick={handleRegister}
           >
             Register
           </Button>
