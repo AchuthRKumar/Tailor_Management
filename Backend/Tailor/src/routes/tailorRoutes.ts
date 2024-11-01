@@ -10,5 +10,7 @@ router.post('/', TailorController.createTailor);
 router.put('/:tailorId', TailorController.updateTailor);
 router.delete('/:tailorId', TailorController.deleteTailor);
 router.get('/:tailorId/review', TailorController.getReviews);
+router.get('/:dress', TailorController.getTailorsByDress);
+
 
 export default router;

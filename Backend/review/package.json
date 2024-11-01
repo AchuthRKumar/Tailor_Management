@@ -20,11 +20,8 @@
   },
   "dependencies": {
     "axios": "^1.7.7",
-<<<<<<< HEAD
     "dotenv": "^16.4.5", 
-=======
     "dotenv": "^16.4.5",
->>>>>>> 73a0b3ae3021eadc0b5800fc100c9f0d1a842753
     "express": "^4.21.1",
     "mongodb": "^6.10.0",
     "mongoose": "^8.7.3"

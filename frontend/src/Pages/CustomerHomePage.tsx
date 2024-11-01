@@ -1,13 +1,11 @@
 import { Box, Stack, Text } from "@chakra-ui/react";
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import SearchBar from "../Components/SearchBar";
 import TopBarCust from "../Components/TopBarCust";
-import axios from 'axios';
 import DressList from "../Components/DressList";
 import Footer from "../Components/Footer";
 
 const CustomerHomePage: React.FC = () => {
-
   return (
     <>
       <TopBarCust />
@@ -38,8 +36,10 @@ const CustomerHomePage: React.FC = () => {
         </Stack>
       </Box>
 
-
-      <DressList />
+      {/* Adding a margin to create a gap */}
+      <Box mt={6}>
+        <DressList />
+      </Box>
 
       <Footer />
     </>

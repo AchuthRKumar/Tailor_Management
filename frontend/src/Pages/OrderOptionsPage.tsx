@@ -13,12 +13,17 @@ const OrderOptionsPage: React.FC = () => {
   const orderOptions = [
     "Shirts", 
     "Pants", 
-    "Kurta", 
+    "Kurta",
+    "Palazzo Pants",
+    "Sherwani",
     "Suits", 
-    "Blazers",  
+    "Blazers",
+    "Salwaar Kammez",
     "Skirts", 
+    "Lehengas",
+    "Anarkali Suits",
     "Tops",  
-    "Lehengas"
+    
   ];
 
   const handleOptionChange = (option: string) => {

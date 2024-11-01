@@ -90,5 +90,18 @@ export const TailorController = {
             }
             
         }
+    },
+
+    getTailorsByDress: async (req: Request, res: Response) => {
+        console.log("hello");
+        
+        const dress = req.params.dress;
+        console.log(dress);
+        try {
+            const tailors = await TailorModel.find({ dress: dress });
+            res.json(tailors);
+        } catch (error) {
+            res.status(500).send('Server error');
+        }
     }
 };
