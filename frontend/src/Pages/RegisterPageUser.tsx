@@ -99,7 +99,7 @@ const RegistrationPageUser: React.FC = () => {
           </Stack>
         </div>
         <div className="card-footer">
-          <Button className="button button-solid" onClick={handleRegister}>Register</Button>
+          <Button className="button button-solid" onClick={handleRegister}>Continue</Button>
           <Button className="button button-outline" onClick={handleCancel}>Cancel</Button>
         </div>
       </Box>

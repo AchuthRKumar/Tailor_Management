@@ -5,7 +5,6 @@ import { Field } from '../Components/ui/field';
 import { PasswordInput } from "../Components/ui/password-input";
 import { useNavigate } from 'react-router-dom';
 import Footer from '../Components/Footer';
-import axios from 'axios';
 
 const RegistrationPageTailor: React.FC = () => {
   const [name, setUsername] = useState('');
@@ -13,15 +12,15 @@ const RegistrationPageTailor: React.FC = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [phone, setPhone] = useState('');
-  const [shopName, setShopName] = useState(''); // New field for shop name
+  const [shopName, setShopName] = useState('');
   const navigate = useNavigate();
 
   const handleCancel = () => {
     navigate('/'); // Navigate back to home or login
   };
 
-  const handleRegister = async () => {
-    // Basic validation
+  const handleContinue = () => {
+    // Basic validation for password match
     if (password !== confirmPassword) {
       alert("Passwords do not match");
       return;
@@ -35,16 +34,9 @@ const RegistrationPageTailor: React.FC = () => {
       password,
     };
 
-    try {
-      const response = await axios.post('http://localhost:5010/api/tailor', tailorData);
-      if (response.status === 201) {
-        alert("Registration successful!");
-        navigate('/'); // Redirect to home or login page after successful registration
-      }
-    } catch (error) {
-      console.error("Error registering tailor:", error);
-      alert("Registration failed. Please try again...");
-    }
+    // Pass data to the next page (e.g., using session storage or context)
+    sessionStorage.setItem("tailorData", JSON.stringify(tailorData));
+    navigate('/order-options'); // Navigate to the next page
   };
 
   return (
@@ -110,7 +102,7 @@ const RegistrationPageTailor: React.FC = () => {
           </Stack>
         </div>
         <div className="card-footer">
-          <Button className="button button-solid" onClick={handleRegister}>Register</Button>
+          <Button className="button button-solid" onClick={handleContinue}>Continue</Button>
           <Button className="button button-outline" onClick={handleCancel}>Cancel</Button>
         </div>
       </Box>
