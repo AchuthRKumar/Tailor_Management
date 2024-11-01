@@ -13,7 +13,7 @@ import ShopListPage from './Pages/ShopListPage';
 import ShopDetailsPage from './Pages/ShopDetailsPage'; // Import the ShopDetailsPage
 
 import CustomerHomePage from './Pages/CustomerHomePage';
-import OrderOptionsPage from './Pages/OrderOptionsPage';
+// import OrderOptionsPage from './Pages/OrderOptionsPage';
 
 const App: React.FC = () => {
     return (
@@ -33,7 +33,7 @@ const App: React.FC = () => {
                     <Route path="/reports" element={<TailorReportsPage/>} />
                     <Route path="/customerhome" element={<CustomerHomePage/>} />
                     <Route path="/treports" element={<TailorReportsPage/>} />
-                    <Route path="/order-options" element={<OrderOptionsPage/>} />
+                    {/* <Route path="/order-options" element={<OrderOptionsPage/>} /> */}
                 </Routes>
             </Router>
         </Provider>
