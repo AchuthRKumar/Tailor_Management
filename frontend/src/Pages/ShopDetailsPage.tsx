@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Spinner, Center, Stack, Text } from '@chakra-ui/react';
+import { Spinner, Center, Stack, Text, Box, Button, VStack } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Footer from '../Components/Footer';
+import TopBarCust from '../Components/TopBarCust';
 
 const ShopDetailsPage = () => {
   const { tailorId } = useParams(); // Get the tailorId from the URL
@@ -26,24 +27,39 @@ const ShopDetailsPage = () => {
   }, [tailorId]);
 
   if (loading) {
-    return <Spinner size="xl" />;
+    return (
+      <Center height="100vh">
+        <Spinner size="xl" />
+      </Center>
+    );
   }
 
   if (error) {
-    return <div>{error}</div>;
+    return (
+      <Center height="100vh">
+        <Text color="red.500" fontSize="lg">{error}</Text>
+      </Center>
+    );
   }
 
   return (
-    <Center>
-      <Stack spacing="4" padding="4">
-        <Text fontSize="2xl" fontWeight="bold">{tailor.shopName}</Text>
-        <Text fontSize="lg">{tailor.description || 'No description available.'}</Text>
-        <Text>{`Rating: ${tailor.rating}`}</Text>
-        <Text>{`Orders this month: ${tailor.ordersCount}`}</Text>
-        {/* Additional details can be displayed here */}
-      </Stack>
-      <Footer />
-    </Center>
+    <>
+      <TopBarCust />
+      <Box padding="8" bg="gray.50">
+        <Center>
+          <VStack spacing="6" width="full" maxWidth="600px" boxShadow="lg" p="6" borderRadius="md" bg="white">
+            <Text fontSize="3xl" fontWeight="bold" color="teal.600">{tailor.shopName}</Text>
+            <Text fontSize="lg" color="gray.600">{tailor.description || 'No description available.'}</Text>
+            <Text fontSize="lg" color="gray.700">{`Rating: ${tailor.rating}`}</Text>
+            <Text fontSize="lg" color="gray.700">{`Orders this month: ${tailor.ordersCount}`}</Text>
+            {/* Additional details can be displayed here */}
+            <Button colorScheme="teal" onClick={() => console.log('Contact the tailor')}>Contact the Tailor</Button>
+          </VStack>
+        </Center>
+        <Footer />
+      </Box>
+    </>
+    
   );
 };
 

@@ -11,6 +11,7 @@ export interface Tailor extends Document {
     ordersCount: number;
     completed: number;
     password: string;
+
 }
 
 const tailorSchema = new Schema<Tailor>({

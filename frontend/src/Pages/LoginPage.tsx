@@ -31,7 +31,7 @@ const LoginPage: React.FC = () => {
           <Text className="card-description">Please enter your credentials below.</Text>
         </div>
         <div className="card-body">
-          <Stack spacing={4}>
+          <Stack>
             <Field label="Username">
               <Input className="input-field" placeholder="Enter your username" />
             </Field>

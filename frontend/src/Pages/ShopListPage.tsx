@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom'; // Use useNavigate instead of us
 import Footer from '../Components/Footer';
 import { Rating } from '../Components/ui/rating';
 import SearchBar from '../Components/SearchBar';
+import TopBarCust from '../Components/TopBarCust';
 
 const ShopListPage = () => {
   const [tailors, setTailors] = useState([]);
@@ -43,6 +44,8 @@ const ShopListPage = () => {
 
   return (
     <>
+      <TopBarCust />
+
       <SearchBar />
       <Center width="100%">
         <Stack gap="4" direction="row" wrap="wrap" maxWidth="1000px" width="100%">

@@ -8,7 +8,7 @@ export interface Order extends Document {
     deliveryDate: Date;
     orderStatus: string;
     amount: number;
-    dresses: string[]; // Array of dress names
+    dresses: string[]; 
 }
 
 const orderSchema = new Schema<Order>({

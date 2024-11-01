@@ -25,12 +25,12 @@ const App: React.FC = () => {
                     <Route path="/registerTailor" element={<RegistrationPageTailor />} />
                     <Route path="/thome" element={<TailorHome />} />
 
-                    <Route path="/treports" element={<TailorReportsPage />} />
+                    <Route path="/reports" element={<TailorReportsPage />} />
                     <Route path="/shops" element={<ShopListPage />} />
                     <Route path="/shop/:tailorId" element={<ShopDetailsPage />} /> 
 
-                    <Route path="/treports" element={<TailorReportsPage/>} />
-                    <Route path="/custhome" element={<CustomerHomePage/>} />
+                    <Route path="/reports" element={<TailorReportsPage/>} />
+                    <Route path="/customerhome" element={<CustomerHomePage/>} />
                 </Routes>
             </Router>
         </Provider>
