@@ -3,22 +3,24 @@ import { Card, Stack, Spinner, Text, HStack, Center } from '@chakra-ui/react';
 import { Avatar } from '../Components/ui/avatar';
 import { Button } from '../Components/ui/button';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Use useNavigate instead of useHistory
+import { useNavigate, useParams } from 'react-router-dom'; // Use useParams to get dress from URL
 import Footer from '../Components/Footer';
 import { Rating } from '../Components/ui/rating';
 import SearchBar from '../Components/SearchBar';
 import TopBarCust from '../Components/TopBarCust';
 
 const ShopListPage = () => {
+  const { dress } = useParams(); 
   const [tailors, setTailors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTailors = async () => {
       try {
-        const response = await axios.get('http://localhost:5010/api/tailor');
+        console.log(`${dress}`);
+        const response = await axios.get(`http://localhost:5010/api/tailor/dress/${dress}`);
         setTailors(response.data);
       } catch (err) {
         setError('Error fetching tailors');
@@ -28,7 +30,7 @@ const ShopListPage = () => {
     };
 
     fetchTailors();
-  }, []);
+  }, [dress]); 
 
   if (loading) {
     return <Spinner size="xl" />;
@@ -39,13 +41,12 @@ const ShopListPage = () => {
   }
 
   const handlePlaceOrder = (tailorId) => {
-    navigate(`/shop/${tailorId}`); // Use navigate to go to ShopDetailsPage
+    navigate(`/shop/${tailorId}`);
   };
 
   return (
     <>
       <TopBarCust />
-
       <SearchBar />
       <Center width="100%">
         <Stack gap="4" direction="row" wrap="wrap" maxWidth="1000px" width="100%">

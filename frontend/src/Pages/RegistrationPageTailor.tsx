@@ -1,9 +1,9 @@
-// src/Pages/RegistrationTailorOrderPage.tsx
 import React, { useState } from 'react';
+import axios from 'axios';
 import { Input, Button, Box, Stack, Text } from '@chakra-ui/react';
 import { Field } from '../Components/ui/field';
-import { PasswordInput } from "../Components/ui/password-input";
-import { Checkbox } from "../Components/ui/checkbox"; // Import custom Checkbox component
+import { PasswordInput } from '../Components/ui/password-input';
+import { Checkbox } from '../Components/ui/checkbox'; // Import custom Checkbox component
 import { useNavigate } from 'react-router-dom';
 import Footer from '../Components/Footer';
 
@@ -23,10 +23,10 @@ const RegistrationTailorOrderPage: React.FC = () => {
     navigate('/'); // Navigate back to home or login
   };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     // Reset errors
     setErrors({});
-
+    
     // Validation for registration
     const newErrors: { [key: string]: string } = {};
     if (!name) newErrors.name = "Please enter your name.";
@@ -53,12 +53,22 @@ const RegistrationTailorOrderPage: React.FC = () => {
       email,
       phone,
       password,
-      orderOptions: selectedOptions.length ? selectedOptions : acceptAll ? 'All' : null,
+      dress: selectedOptions.length ? selectedOptions : acceptAll ? ['All'] : [], // Use 'All' as a string in array if acceptAll is true
+      location: "", // Add this if you're capturing the location
+      revenue: 0, // Default revenue
+      ordersCount: 0, // Default orders count
+      completed: 0, // Default completed count
+      status: "active" // Default status, adjust as necessary
     };
 
-    // Pass data to the next page
-    sessionStorage.setItem("tailorData", JSON.stringify(tailorData));
-    navigate('/'); // Navigate to the next page
+    try {
+      const response = await axios.post('http://localhost:5010/api/tailor', tailorData); // Update with your API URL
+      console.log('Registration successful:', response.data);
+      navigate('/'); // Navigate to the next page or a success page
+    } catch (error) {
+      console.error('Error during registration:', error);
+      setErrors({ api: "Error creating tailor account." }); // Example error handling
+    }
   };
 
   const handleOptionChange = (option: string) => {
@@ -76,12 +86,17 @@ const RegistrationTailorOrderPage: React.FC = () => {
   const orderOptions = [
     "Shirts", 
     "Pants", 
-    "Kurta", 
+    "Kurta",
+    "Palazzo Pants",
+    "Sherwani",
     "Suits", 
-    "Blazers",  
+    "Blazers",
+    "Salwaar Kammez",
     "Skirts", 
+    "Lehengas",
+    "Anarkali Suits",
     "Tops",  
-    "Lehengas"
+    
   ];
 
   return (
@@ -102,12 +117,12 @@ const RegistrationTailorOrderPage: React.FC = () => {
         textAlign="center"
       >
         <Text
-          as="h2"
+          as="h1"
           fontSize="24px"
           fontWeight="bold"
           mb="24px"
-          fontFamily="Poppins, sans-serif"
-          color="#38a169" // Green color for the title
+          fontFamily="'Playfair Display', serif" // Use Playfair font
+          color="black" // Set color to black
         >
           Register as Tailor
         </Text>
@@ -189,8 +204,8 @@ const RegistrationTailorOrderPage: React.FC = () => {
           fontSize="20px"
           fontWeight="bold"
           mb="16px"
-          fontFamily="Poppins, sans-serif"
-          color="#38a169" // Green color for the title
+          fontFamily="'Playfair Display', serif" // Use Playfair font
+          color="black" // Set color to black
         >
           What orders do you take?
         </Text>
@@ -236,6 +251,7 @@ const RegistrationTailorOrderPage: React.FC = () => {
             Cancel
           </Button>
         </Box>
+        {errors.api && <Text color="red.500" fontSize="sm">{errors.api}</Text>} {/* API error message */}
       </Box>
       <Footer /> {/* Footer included at the bottom */}
     </Box>
