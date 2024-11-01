@@ -23,7 +23,7 @@ const OrdersTailor: React.FC = () => {
 
   return (
     <Center>
-      <Card.Root width="600px">
+      <Card.Root width="700px">
         <Center>
           <Heading size="lg">Orders to Complete</Heading>
         </Center>

@@ -65,7 +65,7 @@ const OrderOptionsPage: React.FC = () => {
           fontSize="24px"
           fontWeight="bold"
           mb="24px"
-          fontFamily="Poppins, sans-serif"
+          fontFamily="Poppins"
           color="#38a169" // Green color for the title
         >
           What orders do you take?
@@ -77,7 +77,7 @@ const OrderOptionsPage: React.FC = () => {
               checked={selectedOptions.includes(option)}
               onCheckedChange={() => handleOptionChange(option)}
               fontSize="lg"
-              fontFamily="Arial, sans-serif"
+              fontFamily="Poppins"
               colorScheme="green" // Green color for checkboxes
             >
               {option}
@@ -88,7 +88,7 @@ const OrderOptionsPage: React.FC = () => {
           checked={acceptAll}
           onCheckedChange={handleAcceptAllChange}
           fontSize="md"
-          fontFamily="Arial, sans-serif"
+          fontFamily="Poppins"
           colorScheme="green" // Green color for "I accept all orders" checkbox
           mb="16px"
         >
@@ -100,7 +100,7 @@ const OrderOptionsPage: React.FC = () => {
           _hover={{ bg: "#2f855a" }} // Darker green on hover
           size="lg"
           w="full"
-          fontFamily="Poppins, sans-serif"
+          fontFamily="Poppins"
           onClick={handleRegisterClick}
           disabled={!selectedOptions.length && !acceptAll}
         >
