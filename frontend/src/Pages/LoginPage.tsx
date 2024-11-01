@@ -18,6 +18,11 @@ const LoginPage: React.FC = () => {
   const handleSignIn = () => {
     navigate('/thome');
   }
+
+  const handleReportNavigation = () => {
+    navigate('/treports');
+  };
+
   return (
     <div className="login-container">
       <Box className="card-root">
@@ -26,12 +31,12 @@ const LoginPage: React.FC = () => {
           <Text className="card-description">Please enter your credentials below.</Text>
         </div>
         <div className="card-body">
-          <Stack spacing={4}>
+          <Stack>
             <Field label="Username">
               <Input className="input-field" placeholder="Enter your username" />
             </Field>
             <Field label="Password">
-              <PasswordInput className="input-field" placeholder="Enter your password" />
+              <PasswordInput placeholder="Enter your password" />
             </Field>
           </Stack>
         </div>
