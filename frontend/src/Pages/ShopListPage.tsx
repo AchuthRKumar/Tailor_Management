@@ -59,29 +59,40 @@ const ShopListPage = () => {
       <SearchBar />
       <Center width="100%">
         <Stack gap="4" direction="row" wrap="wrap" maxWidth="1000px" width="100%">
-          {tailors.map((tailor) => (
-            <Card.Root width="320px" variant="subtle" key={tailor._id} shadow="lg">
-              <Card.Body gap="2">
-                <HStack>
-                  <Avatar
-                    name={tailor.name}
-                    size="lg"
-                    shape="rounded"
-                  />
-                  <Card.Title mb="2">{tailor.shopName}</Card.Title>
-                </HStack>
-                <Card.Description>
-                  {`Orders this month: ${tailor.ordersCount}`}
-                </Card.Description>
-                <Rating value={tailor.averageRating} readOnly />
-              </Card.Body>
-              <Card.Footer justifyContent="flex-end">
-                <Button variant="outline" onClick={() => handlePlaceOrder(tailor._id)}>
-                  Place Order
-                </Button>
-              </Card.Footer>
-            </Card.Root>
-          ))}
+          {tailors.map((tailor) => {
+            // Find the specific dress that matches the passed parameter
+            const specificDress = tailor.dress.find(d => d.name === dress);
+
+            // If the dress is not found, return null
+            if (!specificDress) return null;
+
+            return (
+              <Card.Root width="320px" variant="subtle" key={tailor._id} shadow="lg">
+                <Card.Body gap="2">
+                  <HStack>
+                    <Avatar
+                      name={tailor.name}
+                      size="lg"
+                      shape="rounded"
+                    />
+                    <Card.Title mb="2">{tailor.shopName}</Card.Title>
+                  </HStack>
+                  <Card.Description>
+                    Tailored by: {tailor.name}
+                  </Card.Description>
+                  <Text>
+                    {specificDress.name}: ₹{specificDress.price.toFixed(2)}
+                  </Text>
+                  <Rating value={tailor.averageRating} readOnly />
+                </Card.Body>
+                <Card.Footer justifyContent="flex-end">
+                  <Button variant="outline" onClick={() => handlePlaceOrder(tailor._id)}>
+                    Place Order
+                  </Button>
+                </Card.Footer>
+              </Card.Root>
+            );
+          })}
         </Stack>
       </Center>
       <Footer />
