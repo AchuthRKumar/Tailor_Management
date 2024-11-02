@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Input, Button, Box, Stack, Text } from '@chakra-ui/react';
 import { Field } from '../Components/ui/field';
 import { PasswordInput } from '../Components/ui/password-input';
-import { Checkbox } from '../Components/ui/checkbox'; // Import custom Checkbox component
+import { Checkbox } from '../Components/ui/checkbox'; 
 import { useNavigate } from 'react-router-dom';
 import Footer from '../Components/Footer';
 
@@ -16,18 +16,17 @@ const RegistrationTailorOrderPage: React.FC = () => {
   const [shopName, setShopName] = useState('');
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+  const [priceMap, setPriceMap] = useState<{ [key: string]: string }>({}); // State to manage prices
   const [acceptAll, setAcceptAll] = useState(false);
   const navigate = useNavigate();
 
   const handleCancel = () => {
-    navigate('/'); // Navigate back to home or login
+    navigate('/'); 
   };
 
   const handleRegister = async () => {
-    // Reset errors
     setErrors({});
-    
-    // Validation for registration
+
     const newErrors: { [key: string]: string } = {};
     if (!name) newErrors.name = "Please enter your name.";
     if (!/^[a-zA-Z0-9]+$/.test(name)) newErrors.name = "Username can only contain letters and numbers.";
@@ -40,34 +39,38 @@ const RegistrationTailorOrderPage: React.FC = () => {
     if (password.length < 6) newErrors.password = "Password must be at least 6 characters long.";
     if (password !== confirmPassword) newErrors.confirmPassword = "Passwords do not match.";
 
-    // If errors exist, update state and return
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
 
     // Collect data to store in session
+    const dressData = selectedOptions.map(option => ({
+      name: option,
+      price: priceMap[option] || "0", // Default to "0" if no price is provided
+    }));
+
     const tailorData = {
       name,
       shopName,
       email,
       phone,
       password,
-      dress: selectedOptions.length ? selectedOptions : acceptAll ? ['All'] : [], // Use 'All' as a string in array if acceptAll is true
-      location: "", // Add this if you're capturing the location
-      revenue: 0, // Default revenue
-      ordersCount: 0, // Default orders count
-      completed: 0, // Default completed count
-      status: "active" // Default status, adjust as necessary
+      dress: dressData,
+      location: "", 
+      revenue: 0, 
+      ordersCount: 0, 
+      completed: 0, 
+      status: "active" 
     };
 
     try {
-      const response = await axios.post('http://localhost:5010/api/tailor', tailorData); // Update with your API URL
+      const response = await axios.post('http://localhost:5010/api/tailor', tailorData);
       console.log('Registration successful:', response.data);
-      navigate('/'); // Navigate to the next page or a success page
+      navigate('/'); 
     } catch (error) {
       console.error('Error during registration:', error);
-      setErrors({ api: "Error creating tailor account." }); // Example error handling
+      setErrors({ api: "Error creating tailor account." });
     }
   };
 
@@ -77,12 +80,15 @@ const RegistrationTailorOrderPage: React.FC = () => {
     );
   };
 
+  const handlePriceChange = (option: string, value: string) => {
+    setPriceMap(prev => ({ ...prev, [option]: value })); // Update price for selected option
+  };
+
   const handleAcceptAllChange = (e: { checked: boolean }) => {
     setAcceptAll(!!e.checked);
     setSelectedOptions(e.checked ? orderOptions : []);
   };
 
-  // Updated order options including women's items
   const orderOptions = [
     "Shirts", 
     "Pants", 
@@ -96,7 +102,6 @@ const RegistrationTailorOrderPage: React.FC = () => {
     "Lehengas",
     "Anarkali Suits",
     "Tops",  
-    
   ];
 
   return (
@@ -105,7 +110,7 @@ const RegistrationTailorOrderPage: React.FC = () => {
       alignItems="center"
       justifyContent="center"
       minHeight="100vh"
-      bg="linear-gradient(to right, #a8e6cf, #dcedc1)" // Green gradient background
+      bg="linear-gradient(to right, #a8e6cf, #dcedc1)"
       padding="20px"
     >
       <Box
@@ -116,22 +121,10 @@ const RegistrationTailorOrderPage: React.FC = () => {
         borderRadius="10px"
         textAlign="center"
       >
-        <Text
-          as="h1"
-          fontSize="24px"
-          fontWeight="bold"
-          mb="24px"
-          fontFamily="Poppins" // Use Playfair font
-          color="black" // Set color to black
-        >
-          Register as Tailor
+        <Text as="h2" className="card-title">
+          Register As Tailor
         </Text>
-        <Text
-          mb="20px"
-          fontFamily="Poppins"
-          fontSize="16px"
-          color="gray.600"
-        >
+        <Text mb="20px" fontFamily="Poppins" fontSize="16px" color="gray.600">
           Create your tailor account by filling out the details below.
         </Text>
         <Stack mb="20px">
@@ -141,9 +134,9 @@ const RegistrationTailorOrderPage: React.FC = () => {
               placeholder="Enter your name"
               value={name}
               onChange={(e) => setUsername(e.target.value)}
-              isInvalid={!!errors.name} // Indicate invalid state
+              isInvalid={!!errors.name}
             />
-            {errors.name && <Text color="red.500" fontSize="sm">{errors.name}</Text>} {/* Error message */}
+            {errors.name && <Text color="red.500" fontSize="sm">{errors.name}</Text>}
           </Field>
           <Field label="Email">
             <Input
@@ -152,9 +145,9 @@ const RegistrationTailorOrderPage: React.FC = () => {
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              isInvalid={!!errors.email} // Indicate invalid state
+              isInvalid={!!errors.email}
             />
-            {errors.email && <Text color="red.500" fontSize="sm">{errors.email}</Text>} {/* Error message */}
+            {errors.email && <Text color="red.500" fontSize="sm">{errors.email}</Text>}
           </Field>
           <Field label="Phone Number">
             <Input
@@ -163,9 +156,9 @@ const RegistrationTailorOrderPage: React.FC = () => {
               placeholder="Enter your phone number"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              isInvalid={!!errors.phone} // Indicate invalid state
+              isInvalid={!!errors.phone}
             />
-            {errors.phone && <Text color="red.500" fontSize="sm">{errors.phone}</Text>} {/* Error message */}
+            {errors.phone && <Text color="red.500" fontSize="sm">{errors.phone}</Text>}
           </Field>
           <Field label="Shop Name">
             <Input
@@ -173,9 +166,9 @@ const RegistrationTailorOrderPage: React.FC = () => {
               placeholder="Enter your Shop name"
               value={shopName}
               onChange={(e) => setShopName(e.target.value)}
-              isInvalid={!!errors.shopName} // Indicate invalid state
+              isInvalid={!!errors.shopName}
             />
-            {errors.shopName && <Text color="red.500" fontSize="sm">{errors.shopName}</Text>} {/* Error message */}
+            {errors.shopName && <Text color="red.500" fontSize="sm">{errors.shopName}</Text>}
           </Field>
           <Field label="Password">
             <PasswordInput
@@ -183,9 +176,9 @@ const RegistrationTailorOrderPage: React.FC = () => {
               placeholder="Create a password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              isInvalid={!!errors.password} // Indicate invalid state
+              isInvalid={!!errors.password}
             />
-            {errors.password && <Text color="red.500" fontSize="sm">{errors.password}</Text>} {/* Error message */}
+            {errors.password && <Text color="red.500" fontSize="sm">{errors.password}</Text>}
           </Field>
           <Field label="Confirm Password">
             <PasswordInput
@@ -193,20 +186,13 @@ const RegistrationTailorOrderPage: React.FC = () => {
               placeholder="Confirm your password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              isInvalid={!!errors.confirmPassword} // Indicate invalid state
+              isInvalid={!!errors.confirmPassword}
             />
-            {errors.confirmPassword && <Text color="red.500" fontSize="sm">{errors.confirmPassword}</Text>} {/* Error message */}
+            {errors.confirmPassword && <Text color="red.500" fontSize="sm">{errors.confirmPassword}</Text>}
           </Field>
         </Stack>
 
-        <Text
-          as="h3"
-          fontSize="20px"
-          fontWeight="bold"
-          mb="16px"
-          fontFamily="Poppins" // Use Playfair font
-          color="black" // Set color to black
-        >
+        <Text as="h3" fontSize="20px" fontWeight="bold" mb="16px" fontFamily="Poppins" color="black">
           What orders do you take?
         </Text>
         <Stack mb="20px">
@@ -214,46 +200,57 @@ const RegistrationTailorOrderPage: React.FC = () => {
             <Checkbox
               key={option}
               checked={selectedOptions.includes(option)}
-              onCheckedChange={() => handleOptionChange(option)}
+              onChange={() => handleOptionChange(option)}
               fontSize="lg"
               fontFamily="Poppins"
-              colorScheme="green" // Green color for checkboxes
+              colorScheme="green"
             >
               {option}
             </Checkbox>
           ))}
         </Stack>
+        {selectedOptions.map((option) => (
+          <Field key={option} label={`Price for ${option}`}>
+            <Input
+              type="number"
+              placeholder="Enter price"
+              value={priceMap[option] || ''}
+              onChange={(e) => handlePriceChange(option, e.target.value)}
+            />
+          </Field>
+        ))}
         <Checkbox
           checked={acceptAll}
-          onCheckedChange={handleAcceptAllChange}
+          onChange={handleAcceptAllChange}
           fontSize="md"
           fontFamily="Poppins"
-          colorScheme="green" // Green color for "I accept all orders" checkbox
+          colorScheme="green"
           mb="16px"
+          margin = "20px"
         >
           I accept all orders
         </Checkbox>
         <Box display="flex" justifyContent="space-between" mt={4}>
           <Button
-            bg="#38a169" // Green button background
+            bg="#38a169"
             color="white"
-            _hover={{ bg: "#2f855a" }} // Darker green on hover
+            _hover={{ bg: "#2f855a" }}
             onClick={handleRegister}
           >
             Register
           </Button>
           <Button
-            bg="gray.300" // Gray background for cancel button
+            bg="gray.300"
             color="black"
-            _hover={{ bg: "gray.400" }} // Darker gray on hover
+            _hover={{ bg: "gray.400" }}
             onClick={handleCancel}
           >
             Cancel
           </Button>
         </Box>
-        {errors.api && <Text color="red.500" fontSize="sm">{errors.api}</Text>} {/* API error message */}
+        {errors.api && <Text color="red.500" fontSize="sm">{errors.api}</Text>}
       </Box>
-      <Footer /> {/* Footer included at the bottom */}
+      <Footer />
     </Box>
   );
 };
