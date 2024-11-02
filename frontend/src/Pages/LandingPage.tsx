@@ -38,18 +38,21 @@ const LandingPage: React.FC = () => {
 
   return (
     <Box className="landing-page">
+
+      
       <TopBar />
+      <SearchBar />
 
       {/* Enhanced Welcome Box */}
       <Box className="welcome-box" textAlign="center" padding="3rem 2rem">
         <Heading as="h2" size="2xl" className="welcome-title">
           Welcome to TailorNest!
         </Heading>
-        <Text fontSize="lg" fontFamily="'Roboto', sans-serif" marginTop="1rem" color="#333">
+        <Text fontSize="lg" fontFamily="Poppins" marginTop="1rem" color="#333">
           Where every stitch tells a story and each creation is unique.
         </Text>
         
-        <Text fontSize="md" fontFamily="'Roboto', sans-serif" marginTop="1rem" color="#666" maxWidth="600px" marginX="auto">
+        <Text fontSize="md" fontFamily="Poppins" marginTop="1rem" color="#666" maxWidth="600px" marginX="auto">
           At TailorNest, we bring together skilled artisans and individuals looking for quality and personalization. Whether you're here to find a skilled tailor or showcase your craft, we are dedicated to making your journey seamless and rewarding.
         </Text>
 
@@ -58,8 +61,6 @@ const LandingPage: React.FC = () => {
         </Heading>
       </Box>
 
-      {/* Search Bar */}
-      <SearchBar />
 
       {/* Information Boxes */}
       <Box className="info-boxes" display="flex" justifyContent="space-around" marginTop="2rem">

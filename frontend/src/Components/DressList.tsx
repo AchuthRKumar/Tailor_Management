@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Button, Flex, Text, Image, Input, Heading } from "@chakra-ui/react";
+import { useNavigate } from 'react-router-dom';
 
 const dressItems = [
     {
@@ -66,10 +67,15 @@ const dressItems = [
 
 const DressList: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState("");
+    const navigate = useNavigate(); // Initialize useNavigate
 
     const filteredDresses = dressItems.filter(dress =>
         dress.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
+    const handleOrderNow = (dress: string) => {
+        navigate(`/shops/${dress}`); 
+    };
 
     return (
         <Box bg="white" p={6} rounded="lg" shadow="md" textAlign="center">
@@ -102,7 +108,7 @@ const DressList: React.FC = () => {
                             </Text>
                         </Box>
                         <Box p={4} mt="auto">
-                            <Button colorScheme="teal" variant="solid" size="sm" width="full">
+                            <Button onClick={() => handleOrderNow(dress.title)} colorScheme="teal" variant="solid" size="sm" width="full">
                                 Stitch Now
                             </Button>
                         </Box>

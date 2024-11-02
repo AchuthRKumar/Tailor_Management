@@ -95,13 +95,13 @@ export const TailorController = {
     getTailorsByDress: async (req: Request, res: Response) => {
         console.log("hello");
         
-        const dress = req.params.dress;
-        console.log(dress);
+        const d = req.params.dress;
+        console.log(d);
         try {
-            const tailors = await TailorModel.find({ dress: dress });
+            const tailors = await TailorModel.find({ dress: { $in: [d]} });
             res.json(tailors);
         } catch (error) {
-            res.status(500).send('Server error');
+            res.status(500).send('razeen');
         }
     }
 };

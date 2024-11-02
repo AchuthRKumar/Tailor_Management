@@ -22,7 +22,7 @@ const TopBar: React.FC = () => {
 
   return (
     <Box as="header" display="flex" justifyContent="space-between" alignItems="center" padding="1rem" bg="teal.500" color="white">
-      <Heading as="h2" fontFamily="'Playfair Display', serif" fontSize="2rem">TAILORNEST</Heading>
+      <Heading as="h2" fontFamily="Newsreader" fontSize="2rem">TAILORNEST</Heading>
       
       <HStack>
         <Tooltip content="Click here to Login">
