@@ -19,10 +19,6 @@ const LoginPage: React.FC = () => {
     navigate('/thome');
   }
 
-  const handleReportNavigation = () => {
-    navigate('/treports');
-  };
-
   return (
     <div className="login-container">
       <Box className="card-root">
@@ -41,8 +37,8 @@ const LoginPage: React.FC = () => {
           </Stack>
         </div>
         <div className="card-footer">
-          <Button className="button button-solid" onClick={handleSignIn}>Sign In</Button>
-          <Button className="button button-outline" onClick={handleCancel}>Cancel</Button>
+          <Button rounded="md" onClick={handleSignIn}>Sign In</Button>
+          <Button rounded="md" onClick={handleCancel}>Cancel</Button>
         </div>
       </Box>
       <Footer />

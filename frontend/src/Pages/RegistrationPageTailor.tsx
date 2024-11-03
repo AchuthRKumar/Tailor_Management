@@ -231,22 +231,8 @@ const RegistrationTailorOrderPage: React.FC = () => {
           I accept all orders
         </Checkbox>
         <Box display="flex" justifyContent="space-between" mt={4}>
-          <Button
-            bg="#38a169"
-            color="white"
-            _hover={{ bg: "#2f855a" }}
-            onClick={handleRegister}
-          >
-            Register
-          </Button>
-          <Button
-            bg="gray.300"
-            color="black"
-            _hover={{ bg: "gray.400" }}
-            onClick={handleCancel}
-          >
-            Cancel
-          </Button>
+        <Button rounded="md" onClick={handleRegister}>Continue</Button>
+          <Button rounded="md" variant="outline" onClick={handleCancel}>Cancel</Button>
         </Box>
         {errors.api && <Text color="red.500" fontSize="sm">{errors.api}</Text>}
       </Box>
