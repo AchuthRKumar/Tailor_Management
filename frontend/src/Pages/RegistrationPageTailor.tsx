@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Input, Button, Box, Stack, Text } from '@chakra-ui/react';
+import { Input, Button, Box, Stack, Text, HStack } from '@chakra-ui/react';
 import { Field } from '../Components/ui/field';
 import { PasswordInput } from '../Components/ui/password-input';
 import { Checkbox } from '../Components/ui/checkbox'; 
+import { Radio, RadioGroup } from "../Components/ui/radio"
+
 import { useNavigate } from 'react-router-dom';
 import Footer from '../Components/Footer';
 
@@ -16,8 +18,9 @@ const RegistrationTailorOrderPage: React.FC = () => {
   const [shopName, setShopName] = useState('');
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
-  const [priceMap, setPriceMap] = useState<{ [key: string]: string }>({}); // State to manage prices
+  const [priceMap, setPriceMap] = useState<{ [key: string]: string }>({});
   const [acceptAll, setAcceptAll] = useState(false);
+  const [isDelivery, setIsDelivery] = useState('No');
   const navigate = useNavigate();
 
   const handleCancel = () => {
@@ -26,7 +29,6 @@ const RegistrationTailorOrderPage: React.FC = () => {
 
   const handleRegister = async () => {
     setErrors({});
-
     const newErrors: { [key: string]: string } = {};
     if (!name) newErrors.name = "Please enter your name.";
     if (!/^[a-zA-Z0-9]+$/.test(name)) newErrors.name = "Username can only contain letters and numbers.";
@@ -44,10 +46,9 @@ const RegistrationTailorOrderPage: React.FC = () => {
       return;
     }
 
-    // Collect data to store in session
     const dressData = selectedOptions.map(option => ({
       name: option,
-      price: priceMap[option] || "0", // Default to "0" if no price is provided
+      price: priceMap[option],
     }));
 
     const tailorData = {
@@ -61,6 +62,7 @@ const RegistrationTailorOrderPage: React.FC = () => {
       revenue: 0, 
       ordersCount: 0, 
       completed: 0, 
+      isDelivery, 
       status: "active" 
     };
 
@@ -81,13 +83,15 @@ const RegistrationTailorOrderPage: React.FC = () => {
   };
 
   const handlePriceChange = (option: string, value: string) => {
-    setPriceMap(prev => ({ ...prev, [option]: value })); // Update price for selected option
+    setPriceMap(prev => ({ ...prev, [option]: value }));
   };
 
   const handleAcceptAllChange = (e: { checked: boolean }) => {
-    setAcceptAll(!!e.checked);
-    setSelectedOptions(e.checked ? orderOptions : []);
+    const isChecked = e.checked;
+    setAcceptAll(isChecked);
+    setSelectedOptions(isChecked ? orderOptions : []); // Select or deselect all
   };
+
 
   const orderOptions = [
     "Shirts", 
@@ -190,6 +194,14 @@ const RegistrationTailorOrderPage: React.FC = () => {
             />
             {errors.confirmPassword && <Text color="red.500" fontSize="sm">{errors.confirmPassword}</Text>}
           </Field>
+          <Field label="Do you deliver/take orders">
+            <RadioGroup value={isDelivery} onValueChange={(e) => setIsDelivery(e.value)}>
+              <HStack gap="6">
+                <Radio value="Yes">Yes</Radio>
+                <Radio value="No">No</Radio>
+              </HStack>
+            </RadioGroup>
+          </Field>
         </Stack>
 
         <Text as="h3" fontSize="20px" fontWeight="bold" mb="16px" fontFamily="Poppins" color="black">
@@ -226,12 +238,12 @@ const RegistrationTailorOrderPage: React.FC = () => {
           fontFamily="Poppins"
           colorScheme="green"
           mb="16px"
-          margin = "20px"
+          margin="20px"
         >
           I accept all orders
         </Checkbox>
         <Box display="flex" justifyContent="space-between" mt={4}>
-        <Button rounded="md" onClick={handleRegister}>Continue</Button>
+          <Button rounded="md" onClick={handleRegister}>Continue</Button>
           <Button rounded="md" variant="outline" onClick={handleCancel}>Cancel</Button>
         </Box>
         {errors.api && <Text color="red.500" fontSize="sm">{errors.api}</Text>}

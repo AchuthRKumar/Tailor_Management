@@ -16,6 +16,7 @@ export interface Tailor extends Document {
     completed: number;
     password: string;
     status: string;
+    isDelivery: string;
     dress: Dress[]; 
 }
 
@@ -35,7 +36,8 @@ const tailorSchema = new Schema<Tailor>({
     ordersCount: { type: Number, default: 0 },
     completed: { type: Number, default: 0 },
     status: { type: String, required: true },
-    dress: { type: [dressSchema], required: true } // Change here
+    isDelivery: { type: String, required: true },  
+    dress: { type: [dressSchema], required: true } 
 });
 
 const TailorModel = model<Tailor>('Tailor', tailorSchema);
