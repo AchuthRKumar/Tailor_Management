@@ -16,7 +16,7 @@ export interface Tailor extends Document {
     completed: number;
     password: string;
     status: string;
-    dress: Dress[]; // Change here to incorporate price
+    dress: Dress[]; 
 }
 
 const dressSchema = new Schema<Dress>({

@@ -35,9 +35,9 @@ export const OrderController = {
 
     updateOrderByTailor: async (req: Request, res: Response) => {
         const orderId = req.params.orderId;
-        const { status } = req.body;
+        const updates = req.body;
         try {
-            const updatedOrder = await OrderModel.findByIdAndUpdate(orderId, { orderStatus: status }, { new: true });
+            const updatedOrder = await OrderModel.findByIdAndUpdate(orderId, updates, { new: true, runValidators: true });
             if (updatedOrder) {
                 res.json(updatedOrder);
             } else {
@@ -50,11 +50,29 @@ export const OrderController = {
 
     updateOrderByCustomer: async (req: Request, res: Response) => {
         const orderId = req.params.orderId;
+        
         const updates = req.body;
+    
         try {
-            const updatedOrder = await OrderModel.findByIdAndUpdate(orderId, updates, { new: true });
+            const updatedOrder = await OrderModel.findByIdAndUpdate(orderId, updates, { new: true, runValidators: true }); // Added runValidators
             if (updatedOrder) {
                 res.json(updatedOrder);
+            } else {
+                res.status(404).send('Order not found');
+            }
+        } catch (error) {
+            console.error("Update Error:", error); // Log the error for debugging
+            res.status(500).send('Server Error');
+        }
+    },
+
+    //get the order by orderId
+    getOrderById: async (req: Request, res: Response) => {
+        const orderId = req.params.orderId;
+        try {
+            const order = await OrderModel.findById(orderId);
+            if (order) {
+                res.json(order);
             } else {
                 res.status(404).send('Order not found');
             }

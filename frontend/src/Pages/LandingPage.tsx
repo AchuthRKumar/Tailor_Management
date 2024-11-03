@@ -1,4 +1,3 @@
-// src/LandingPage.tsx
 import React, { useEffect, useState } from 'react';
 import { Box, Heading, Text } from '@chakra-ui/react';
 import TopBar from '../Components/TopBar';
@@ -38,8 +37,6 @@ const LandingPage: React.FC = () => {
 
   return (
     <Box className="landing-page">
-
-      
       <TopBar />
       <SearchBar />
 
@@ -61,23 +58,22 @@ const LandingPage: React.FC = () => {
         </Heading>
       </Box>
 
-
       {/* Information Boxes */}
-      <Box className="info-boxes" display="flex" justifyContent="space-around" marginTop="2rem">
-        <Box className="info-box" padding="1.5rem" borderWidth="1px" borderRadius="md" boxShadow="md">
-          <Heading as="h3" size="md" color="#3b82f6">About Us</Heading>
+      <Box className="info-boxes" display="flex" justifyContent="space-around" marginTop="1.5rem">
+        <Box className="info-box" padding="1rem" borderWidth="1px" borderRadius="md" boxShadow="md">
+          <Heading as="h3" size="md">About Us</Heading>
           <Text fontSize="sm" color="#666" marginTop="0.5rem">
             Learn more about our mission and values, and what drives us to create.
           </Text>
         </Box>
-        <Box className="info-box" padding="1.5rem" borderWidth="1px" borderRadius="md" boxShadow="md">
-          <Heading as="h3" size="md" color="#3b82f6">What We Do</Heading>
+        <Box className="info-box" padding="1rem" borderWidth="1px" borderRadius="md" boxShadow="md">
+          <Heading as="h3" size="md">What We Do</Heading>
           <Text fontSize="sm" color="#666" marginTop="0.5rem">
             Discover the tailored services we offer to bring you the best experience.
           </Text>
         </Box>
-        <Box className="info-box" padding="1.5rem" borderWidth="1px" borderRadius="md" boxShadow="md">
-          <Heading as="h3" size="md" color="#3b82f6">Our Story</Heading>
+        <Box className="info-box" padding="1rem" borderWidth="1px" borderRadius="md" boxShadow="md">
+          <Heading as="h3" size="md">Our Story</Heading>
           <Text fontSize="sm" color="#666" marginTop="0.5rem">
             Read about our journey from humble beginnings to a thriving community.
           </Text>

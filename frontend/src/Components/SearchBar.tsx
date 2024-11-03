@@ -27,9 +27,9 @@ const SearchBar: React.FC = () => {
         <IconButton 
           size="lg" 
           aria-label="Search database" 
-          variant="ghost" 
-          ml={2} 
+          variant="subtle"  
           onClick={handleSearch}
+          rounded="full"
         >
           <LuSearch />
         </IconButton>
