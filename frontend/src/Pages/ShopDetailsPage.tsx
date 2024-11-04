@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Spinner, Center, Stack, Text, Box, Button, VStack } from '@chakra-ui/react';
+import { Spinner, Center, Text, Box, Button, VStack } from '@chakra-ui/react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Footer from '../Components/Footer';
