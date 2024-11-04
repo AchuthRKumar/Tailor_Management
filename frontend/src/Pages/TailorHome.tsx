@@ -34,7 +34,8 @@ const TailorHome: React.FC = () => {
         return <OrdersTable />;
       case 'profile':
         return <Profile />;
-      case 'reports': return <TailorReportsPage/>; break;
+      case 'reports':
+        return <TailorReportsPage/>; 
         // return (
         //   // <Box>
         //   //   <Heading as="h2" size="lg" mb={4} color="teal.500">

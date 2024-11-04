@@ -10,7 +10,7 @@ export interface Dress{
     collar: number;
 }
 export interface MeasurementDocument extends Document {
-    custId: string;
+    customerId: string;
     orderId: string;
     dress: Dress[];
 }
@@ -26,7 +26,7 @@ const dressSchema: Schema = new Schema<Dress>({
 });
 
 const MeasurementSchema: Schema = new Schema ({
-    custId: {type: String, required: true},
+    customerId: {type: String, required: true},
     orderId: {type: String, required: true},
     dress: {type: [dressSchema], required: true}
 
