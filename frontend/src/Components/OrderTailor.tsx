@@ -36,7 +36,7 @@ const OrdersTailor: React.FC = () => {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const response = await axios.get('http://localhost:5010/api/order/tailor/tailor1');
+                const response = await axios.get('http://localhost:5010/api/order/tailor/6727b96e7f2024067e9090b6');
                 setOrders(response.data);
                 setUpdatedOrders(response.data);
             } catch (error) {

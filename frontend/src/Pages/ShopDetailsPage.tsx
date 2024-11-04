@@ -1,12 +1,16 @@
+"use client"
+
 import React, { useEffect, useState } from 'react';
 import { Spinner, Center, Text, Box, Button, VStack } from '@chakra-ui/react';
+import { toaster } from "../Components/ui/toaster"
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Footer from '../Components/Footer';
 import TopBarCust from '../Components/TopBarCust';
 
 const ShopDetailsPage = () => {
-  const { tailorId } = useParams(); // Get the tailorId from the URL
+  const { tailorId } = useParams();
+  const {dress} = useParams();
   const navigate = useNavigate();
   const [tailor, setTailor] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -26,6 +30,21 @@ const ShopDetailsPage = () => {
 
     fetchTailorDetails();
   }, [tailorId]);
+
+  const handlePlaceOrder = async () => {
+    const orderData = {
+      customerId: 'customer123', 
+      tailorId: tailorId,
+      deliveryDate: new Date(),
+      orderStatus: 'Pending',
+      amount: (tailor.dress.find(d => d.name === dress)).price.toFixed(2), 
+      orderType: 'custom', 
+      deliveryType: 'home', 
+      dresses: [dress], 
+    };
+
+    const response = await axios.post('http://localhost:5010/api/order/', orderData);
+  };
 
   if (loading) {
     return (
@@ -53,15 +72,17 @@ const ShopDetailsPage = () => {
             <Text fontSize="lg" color="gray.600">{tailor.description || 'No description available.'}</Text>
             <Text fontSize="lg" color="gray.700">{`Rating: ${tailor.rating}`}</Text>
             <Text fontSize="lg" color="gray.700">{`Orders this month: ${tailor.ordersCount}`}</Text>
-
-            {/* New Content Section */}
             <Text fontSize="lg" color="gray.700">{`Location: ${tailor.location || 'Not specified'}`}</Text>
             <Text fontSize="lg" color="gray.700">{`Working Hours: ${tailor.workingHours || 'Not specified'}`}</Text>
             <Text fontSize="lg" color="gray.700">Dress Types Offered: {tailor.dressTypes}</Text>
 
-            <Button colorScheme="teal" onClick={() => console.log('Contact the tailor')}>Contact the Tailor</Button>
-            <Button colorScheme="blue" onClick={() => console.log('Place Order')}>Place Order</Button>
-            <Button variant="outline" onClick={() => navigate(-1)}>Cancel</Button> {/* Go back to previous page */}
+            <Button colorScheme="teal" onClick={handlePlaceOrder}>Place Order</Button>
+            <Button colorScheme="blue" onClick={() =>
+                toaster.create({
+                  description: "File saved successfully",
+                  type: "loading",
+                })}>Contact the Tailor</Button>
+            <Button variant="outline" onClick={() => navigate(-1)}>Cancel</Button>
           </VStack>
         </Center>
         <Footer />
