@@ -120,7 +120,6 @@ const RegistrationPageUser: React.FC = () => {
             </Field>
             <Field label="Password">
               <PasswordInput
-                className="input-field"
                 placeholder="Create a password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -130,7 +129,6 @@ const RegistrationPageUser: React.FC = () => {
             </Field>
             <Field label="Confirm Password">
               <PasswordInput
-                className="input-field"
                 placeholder="Confirm your password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}

@@ -78,7 +78,8 @@ const ShopListPage = () => {
                     <Card.Title mb="2">{tailor.shopName}</Card.Title>
                   </HStack>
                   <Card.Description>
-                    Tailored by: {tailor.name}
+                    Tailored by: {tailor.name}<br />
+                    Collection/Delivery Available: {tailor.isDelivery}
                   </Card.Description>
                   <Text>
                     {specificDress.name}: ₹{specificDress.price.toFixed(2)}

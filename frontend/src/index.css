@@ -51,20 +51,6 @@ body {
   color: #666;
 }
 
-.card-body .input-field {
-  width: 100%;
-  margin-bottom: 1rem;
-  padding: 0.8rem;
-  font-size: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  transition: border-color 0.2s;
-}
-
-.card-body .input-field:focus {
-  outline: none;
-  border-color: #3b82f6;
-}
 
 .card-footer {
   display: flex;

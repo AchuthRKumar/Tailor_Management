@@ -14,7 +14,6 @@ export const addReview = async (req: Request, res: Response) => {
 
 //Get all review for a shop
 export const getReviews = async( req: Request, res: Response) => {
-    console.log(req.params);
     try{
         const reviews = await Review.find(req.params);
         res.json(reviews);
