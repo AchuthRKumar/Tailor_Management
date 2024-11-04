@@ -85,8 +85,8 @@ const ShopDetailsPage = () => {
             <Button variant="outline" onClick={() => navigate(-1)}>Cancel</Button>
           </VStack>
         </Center>
+        </Box>
         <Footer />
-      </Box>
     </>
   );
 };

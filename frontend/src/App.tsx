@@ -28,10 +28,7 @@ const App: React.FC = () => {
                     <Route path="/shop/:dress/:tailorId" element={<ShopDetailsPage />} />
                     <Route path="/dresslist" element={<DressList />} /> 
                     <Route path="/customerhome" element={<CustomerHomePage />} />
-<<<<<<< HEAD
-=======
                     {/* <Route path="/treports" element={<TailorReportsPage />} /> */}
->>>>>>> f238676bd4f01fa2fd6895f8492994fbf0052004
                     {/* <Route path="/order-options" element={<OrderOptionsPage />} /> */}
                 </Routes>
             </Router>
