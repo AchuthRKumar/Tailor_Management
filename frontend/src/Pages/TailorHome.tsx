@@ -1,6 +1,6 @@
 // src/pages/TailorHomePage.tsx
 import React, { useState } from 'react';
-import { Box, Button, Container, Heading, Text } from '@chakra-ui/react';
+import { Box, Button, Container, Heading,  } from '@chakra-ui/react';
 import OrdersTable from '../Components/OrderTailor';
 import TopBarTailor from '../Components/TopBarTailor';
 import Footer from '../Components/Footer';
@@ -17,16 +17,10 @@ import {
   DrawerTrigger,
 } from "../Components/ui/drawer";
 import Profile from '../Components/Profile';
-import { useNavigate } from 'react-router-dom';
 import TailorReportsPage from './TailorReportsPage';
 
 const TailorHome: React.FC = () => {
   const [currentSection, setCurrentSection] = useState<'orders' | 'profile' | 'reports'>('orders');
-  const navigate = useNavigate();
-
-  const handleReports = () => {
-    navigate('/treports');
-  }
 
   const renderSection = () => {
     switch (currentSection) {
@@ -34,18 +28,8 @@ const TailorHome: React.FC = () => {
         return <OrdersTable />;
       case 'profile':
         return <Profile />;
-      case 'reports': return <TailorReportsPage/>; break;
-        // return (
-        //   // <Box>
-        //   //   <Heading as="h2" size="lg" mb={4} color="teal.500">
-        //   //     Reports
-        //   //   </Heading>
-        //   //   <Text mb={4}>Analyze your business performance</Text>
-        //   //   <Button colorScheme="teal" onClick={handleReports}>
-        //   //     Go to Reports
-        //   //   </Button>
-        //   // </Box>
-        // );
+      case 'reports':
+        return <TailorReportsPage/>; 
       default:
         return null;
     }

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Box, Heading, Textarea, Input, VStack, HStack, IconButton } from '@chakra-ui/react';
+import { Box, Heading, Textarea, Input, HStack, IconButton } from '@chakra-ui/react';
 import { Radio, RadioGroup } from "../Components/ui/radio"; // Adjust the import path if needed
 import { LuCheck } from "react-icons/lu"; // Icons for save action
 import { FaEdit, FaTrash } from "react-icons/fa"; // Import FaEdit and FaTrash icons
