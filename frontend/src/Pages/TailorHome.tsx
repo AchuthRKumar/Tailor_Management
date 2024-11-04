@@ -18,6 +18,7 @@ import {
 } from "../Components/ui/drawer";
 import Profile from '../Components/Profile';
 import { useNavigate } from 'react-router-dom';
+import TailorReportsPage from './TailorReportsPage';
 
 const TailorHome: React.FC = () => {
   const [currentSection, setCurrentSection] = useState<'orders' | 'profile' | 'reports'>('orders');
@@ -33,18 +34,18 @@ const TailorHome: React.FC = () => {
         return <OrdersTable />;
       case 'profile':
         return <Profile />;
-      case 'reports':
-        return (
-          <Box>
-            <Heading as="h2" size="lg" mb={4} color="teal.500">
-              Reports
-            </Heading>
-            <Text mb={4}>Analyze your business performance</Text>
-            <Button colorScheme="teal" onClick={handleReports}>
-              Go to Reports
-            </Button>
-          </Box>
-        );
+      case 'reports': return <TailorReportsPage/>; break;
+        // return (
+        //   // <Box>
+        //   //   <Heading as="h2" size="lg" mb={4} color="teal.500">
+        //   //     Reports
+        //   //   </Heading>
+        //   //   <Text mb={4}>Analyze your business performance</Text>
+        //   //   <Button colorScheme="teal" onClick={handleReports}>
+        //   //     Go to Reports
+        //   //   </Button>
+        //   // </Box>
+        // );
       default:
         return null;
     }
