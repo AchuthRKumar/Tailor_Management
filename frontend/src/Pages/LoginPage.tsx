@@ -16,7 +16,7 @@ const LoginPage: React.FC = () => {
   };
 
   const handleSignIn = () => {
-    navigate('/thome');
+    navigate('/tailorhome');
   }
 
   return (
