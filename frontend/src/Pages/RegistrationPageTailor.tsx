@@ -109,6 +109,7 @@ const RegistrationTailorOrderPage: React.FC = () => {
   ];
 
   return (
+    <>
     <Box
       display="flex"
       alignItems="center"
@@ -248,8 +249,11 @@ const RegistrationTailorOrderPage: React.FC = () => {
         </Box>
         {errors.api && <Text color="red.500" fontSize="sm">{errors.api}</Text>}
       </Box>
-      <Footer />
+      
     </Box>
+    <Footer />
+    </>
+    
   );
 };
 
