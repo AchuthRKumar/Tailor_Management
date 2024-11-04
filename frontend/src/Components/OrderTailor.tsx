@@ -4,7 +4,6 @@ import { SegmentedControl } from "../Components/ui/segmented-control";
 import { Card } from "@chakra-ui/react";
 import axios from 'axios';
 import {
-    DrawerActionTrigger,
     DrawerBackdrop,
     DrawerBody,
     DrawerCloseTrigger,
@@ -26,17 +25,28 @@ interface Order {
     placedDate: string;
 }
 
+interface Dress {
+    name: string;
+    chest: number;
+    waist: number;
+    length: number;
+    sleeve: number;
+    inseam: number;
+    collar: number;
+}
+
 const OrdersTailor: React.FC = () => {
     const [orders, setOrders] = useState<Order[]>([]);
     const [updatedOrders, setUpdatedOrders] = useState<Order[]>([]);
     const [hasChanges, setHasChanges] = useState<boolean>(false);
     const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
     const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+    const [measurements, setMeasurements] = useState<Dress[]>([]);
 
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const response = await axios.get('http://localhost:5010/api/order/tailor/tailor1');
+                const response = await axios.get('http://localhost:5010/api/order/tailor/6727b96e7f2024067e9090b6');
                 setOrders(response.data);
                 setUpdatedOrders(response.data);
             } catch (error) {
@@ -78,9 +88,18 @@ const OrdersTailor: React.FC = () => {
         setHasChanges(false);
     };
 
-    const handleViewDetails = (order: Order) => {
+    const handleViewDetails = async (order: Order) => {
         setSelectedOrder(order);
         setIsDrawerOpen(true);
+    
+        try {
+            const response = await axios.get(`http://localhost:5010/api/measurement/${order._id}`);
+            setMeasurements(response.data[0].dressMeasures || []); 
+            console.log(measurements);
+        } catch (error) {
+            console.error("Error fetching measurements:", error);
+            setMeasurements([]); // Reset on error
+        }
     };
 
     return (
@@ -113,12 +132,12 @@ const OrdersTailor: React.FC = () => {
                                         </ul>
                                     </Table.Cell>
                                     <Table.Cell>
-                                        <DrawerRoot placement="end" size="lg">
+                                        <DrawerRoot isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} size="xl">
                                             <DrawerTrigger asChild>
                                                 <Button size="sm" onClick={() => handleViewDetails(order)}>View Details</Button>
                                             </DrawerTrigger>
                                             <DrawerBackdrop />
-                                            <DrawerContent offset="3" rounded="md">
+                                            <DrawerContent>
                                                 <DrawerCloseTrigger>
                                                     <Button variant="outline">Close</Button>
                                                 </DrawerCloseTrigger>
@@ -129,7 +148,7 @@ const OrdersTailor: React.FC = () => {
                                                     {selectedOrder && (
                                                         <Box>
                                                             <p><strong>Customer ID:</strong> {selectedOrder.customerId}</p>
-                                                            <p><strong>Placed On:</strong> {selectedOrder.placedDate}</p>
+                                                            <p><strong>Placed On:</strong> {new Date(selectedOrder.placedDate).toLocaleDateString()}</p>
                                                             <p><strong>Delivery Date:</strong> {new Date(selectedOrder.deliveryDate).toLocaleDateString()}</p>
                                                             <p><strong>Order Status:</strong> {selectedOrder.orderStatus}</p>
                                                             <p><strong>Amount:</strong> ${selectedOrder.amount.toFixed(2)}</p>
@@ -140,6 +159,42 @@ const OrdersTailor: React.FC = () => {
                                                                 ))}
                                                             </ul>
                                                             <p><strong>Placed Date:</strong> {new Date(selectedOrder.placedDate).toLocaleDateString()}</p>
+
+                                                            <p><strong>Measurements:</strong></p>
+                                                            <Table.Root size="sm">
+                                                                <Table.Header>
+                                                                    <Table.Row>
+                                                                        <Table.ColumnHeader>Name</Table.ColumnHeader>
+                                                                        <Table.ColumnHeader>Chest</Table.ColumnHeader>
+                                                                        <Table.ColumnHeader>Waist</Table.ColumnHeader>
+                                                                        <Table.ColumnHeader>Length</Table.ColumnHeader>
+                                                                        <Table.ColumnHeader>Sleeve</Table.ColumnHeader>
+                                                                        <Table.ColumnHeader>Inseam</Table.ColumnHeader>
+                                                                        <Table.ColumnHeader>Collar</Table.ColumnHeader>
+                                                                        <Table.ColumnHeader>Shoulder</Table.ColumnHeader>
+                                                                    </Table.Row>
+                                                                </Table.Header>
+                                                                <Table.Body>
+                                                                    {measurements.length > 0 ? ( // Check if measurements has data
+                                                                        measurements.map((measure, index) => (
+                                                                            <Table.Row key={index}>
+                                                                                <Table.Cell>{measure.name}</Table.Cell>
+                                                                                <Table.Cell>{measure.chest}</Table.Cell>
+                                                                                <Table.Cell>{measure.waist}</Table.Cell>
+                                                                                <Table.Cell>{measure.length}</Table.Cell>
+                                                                                <Table.Cell>{measure.sleeve}</Table.Cell>
+                                                                                <Table.Cell>{measure.inseam}</Table.Cell>
+                                                                                <Table.Cell>{measure.collar}</Table.Cell>
+                                                                                <Table.Cell>{measure.shoulder}</Table.Cell>
+                                                                            </Table.Row>
+                                                                        ))
+                                                                    ) : (
+                                                                        <Table.Row>
+                                                                            <Table.Cell colSpan={8}>No measurements available.</Table.Cell>
+                                                                        </Table.Row>
+                                                                    )}
+                                                                </Table.Body>
+                                                            </Table.Root>
                                                         </Box>
                                                     )}
                                                 </DrawerBody>

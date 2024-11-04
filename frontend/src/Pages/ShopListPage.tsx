@@ -50,7 +50,7 @@ const ShopListPage = () => {
   }
 
   const handlePlaceOrder = (tailorId) => {
-    navigate(`/shop/${tailorId}`);
+    navigate(`/shop/${dress}/${tailorId}`);
   };
 
   return (
@@ -88,7 +88,7 @@ const ShopListPage = () => {
                 </Card.Body>
                 <Card.Footer justifyContent="flex-end">
                   <Button variant="outline" onClick={() => handlePlaceOrder(tailor._id)}>
-                    Place Order
+                    View shop
                   </Button>
                 </Card.Footer>
               </Card.Root>

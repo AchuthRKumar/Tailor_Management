@@ -16,10 +16,11 @@ const LoginPage: React.FC = () => {
   };
 
   const handleSignIn = () => {
-    navigate('/thome');
+    navigate('/tailorhome');
   }
 
   return (
+    <>
     <div className="login-container">
       <Box className="card-root">
         <div className="card-header">
@@ -41,8 +42,11 @@ const LoginPage: React.FC = () => {
           <Button rounded="md" onClick={handleCancel}>Cancel</Button>
         </div>
       </Box>
-      <Footer />
     </div>
+    <Footer />
+    </>
+    
+
   );
 };
 
