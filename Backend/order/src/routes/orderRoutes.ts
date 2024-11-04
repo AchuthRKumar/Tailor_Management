@@ -7,6 +7,7 @@ const router = Router();
 router.get('/tailor/:tailorId', OrderController.getOrdersByTailor);
 router.get('/customer/:customerId', OrderController.getOrdersByCustomer);
 router.post('/', OrderController.postOrder);
+router.get('/:orderId', OrderController.getOrderById);
 router.put('/tailor/:orderId', OrderController.updateOrderByTailor);
 router.put('/customer/:orderId', OrderController.updateOrderByCustomer);
 

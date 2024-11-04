@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import Measurement from '../model/Measurement';
 
-// Get measurement of user
+// Get measurement of order
 export const getMeasurement = async (req: Request, res: Response) => {
     try {
-        const measurements = await Measurement.find({custId: req.params.custId});
+        const measurements = await Measurement.find({orderId: req.params.orderId});
         res.json(measurements);
     } catch (err) {
         res.status(400).json({ error: "Cannot get the measurements" });

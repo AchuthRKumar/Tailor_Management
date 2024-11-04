@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Spinner, Center, Stack, Text, Box, Button, VStack } from '@chakra-ui/react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Footer from '../Components/Footer';
 import TopBarCust from '../Components/TopBarCust';
 
 const ShopDetailsPage = () => {
   const { tailorId } = useParams(); // Get the tailorId from the URL
+  const navigate = useNavigate();
   const [tailor, setTailor] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -52,14 +53,20 @@ const ShopDetailsPage = () => {
             <Text fontSize="lg" color="gray.600">{tailor.description || 'No description available.'}</Text>
             <Text fontSize="lg" color="gray.700">{`Rating: ${tailor.rating}`}</Text>
             <Text fontSize="lg" color="gray.700">{`Orders this month: ${tailor.ordersCount}`}</Text>
-            {/* Additional details can be displayed here */}
+
+            {/* New Content Section */}
+            <Text fontSize="lg" color="gray.700">{`Location: ${tailor.location || 'Not specified'}`}</Text>
+            <Text fontSize="lg" color="gray.700">{`Working Hours: ${tailor.workingHours || 'Not specified'}`}</Text>
+            <Text fontSize="lg" color="gray.700">Dress Types Offered: {tailor.dressTypes}</Text>
+
             <Button colorScheme="teal" onClick={() => console.log('Contact the tailor')}>Contact the Tailor</Button>
+            <Button colorScheme="blue" onClick={() => console.log('Place Order')}>Place Order</Button>
+            <Button variant="outline" onClick={() => navigate(-1)}>Cancel</Button> {/* Go back to previous page */}
           </VStack>
         </Center>
         <Footer />
       </Box>
     </>
-    
   );
 };
 

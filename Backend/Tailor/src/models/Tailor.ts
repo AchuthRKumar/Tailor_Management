@@ -1,5 +1,10 @@
 import { Schema, model, Document } from 'mongoose';
 
+export interface Dress {
+    name: string;
+    price: number;
+}
+
 export interface Tailor extends Document {
     name: string;
     shopName: string;
@@ -11,8 +16,14 @@ export interface Tailor extends Document {
     completed: number;
     password: string;
     status: string;
-    dress: string[];
+    isDelivery: string;
+    dress: Dress[]; 
 }
+
+const dressSchema = new Schema<Dress>({
+    name: { type: String, required: true },
+    price: { type: Number, required: true }
+});
 
 const tailorSchema = new Schema<Tailor>({
     name: { type: String, required: true },
@@ -24,8 +35,9 @@ const tailorSchema = new Schema<Tailor>({
     revenue: { type: Number, default: 0 },
     ordersCount: { type: Number, default: 0 },
     completed: { type: Number, default: 0 },
-    status: {type: String, required: true},
-    dress: { type: [String], required: true }, 
+    status: { type: String, required: true },
+    isDelivery: { type: String, required: true },  
+    dress: { type: [dressSchema], required: true } 
 });
 
 const TailorModel = model<Tailor>('Tailor', tailorSchema);

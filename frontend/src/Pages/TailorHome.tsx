@@ -17,9 +17,15 @@ import {
   DrawerTrigger,
 } from "../Components/ui/drawer";
 import Profile from '../Components/Profile';
+import { useNavigate } from 'react-router-dom';
 
 const TailorHome: React.FC = () => {
   const [currentSection, setCurrentSection] = useState<'orders' | 'profile' | 'reports'>('orders');
+  const navigate = useNavigate();
+
+  const handleReports = () => {
+    navigate('/treports');
+  }
 
   const renderSection = () => {
     switch (currentSection) {
@@ -34,7 +40,7 @@ const TailorHome: React.FC = () => {
               Reports
             </Heading>
             <Text mb={4}>Analyze your business performance</Text>
-            <Button colorScheme="teal" onClick={() => {/* Add your report navigation logic here */}}>
+            <Button colorScheme="teal" onClick={handleReports}>
               Go to Reports
             </Button>
           </Box>
@@ -62,13 +68,13 @@ const TailorHome: React.FC = () => {
               <DrawerCloseTrigger />
             </DrawerHeader>
             <DrawerBody>
-              <Button w="100%" mb={2} rounded="md" variant="surface" onClick={() => { setCurrentSection('orders'); }}>
+              <Button w="100%" mb={2} rounded="md" variant="ghost" onClick={() => { setCurrentSection('orders'); }}>
                 Current Orders
               </Button>
-              <Button w="100%" mb={2} rounded="md" variant="surface" onClick={() => { setCurrentSection('profile'); }}>
+              <Button w="100%" mb={2} rounded="md" variant="ghost" onClick={() => { setCurrentSection('profile'); }}>
                 Profile
               </Button>
-              <Button w="100%" mb={2} rounded="md" variant="surface" onClick={() => { setCurrentSection('reports'); }}>
+              <Button w="100%" mb={2} rounded="md" variant="ghost" onClick={() => { setCurrentSection('reports'); }}>
                 Reports
               </Button>
             </DrawerBody>

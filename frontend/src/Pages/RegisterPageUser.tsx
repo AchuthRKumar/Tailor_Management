@@ -81,8 +81,8 @@ const RegistrationPageUser: React.FC = () => {
     }}>
       <Box className="card-root" bg="white" boxShadow="lg" borderRadius="md" p={6}>
         <div className="card-header">
-          <Text as="h2" className="card-title" color="green.600">Register</Text>
-          <Text className="card-description" color="gray.600">Create your account by filling out the details below.</Text>
+          <Text as="h2" className="card-title" >Register</Text>
+          <Text className="card-description" >Create your account by filling out the details below.</Text>
         </div>
         <div className="card-body">
           <Stack spacing={4}>
@@ -120,7 +120,6 @@ const RegistrationPageUser: React.FC = () => {
             </Field>
             <Field label="Password">
               <PasswordInput
-                className="input-field"
                 placeholder="Create a password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -130,7 +129,6 @@ const RegistrationPageUser: React.FC = () => {
             </Field>
             <Field label="Confirm Password">
               <PasswordInput
-                className="input-field"
                 placeholder="Confirm your password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
@@ -141,8 +139,8 @@ const RegistrationPageUser: React.FC = () => {
           </Stack>
         </div>
         <div className="card-footer">
-          <Button className="button button-solid" colorScheme="green" onClick={handleRegister}>Continue</Button>
-          <Button className="button button-outline" colorScheme="green" variant="outline" onClick={handleCancel}>Cancel</Button>
+          <Button rounded="md" onClick={handleRegister}>Continue</Button>
+          <Button rounded="md" variant="outline" onClick={handleCancel}>Cancel</Button>
         </div>
       </Box>
       <Footer />
