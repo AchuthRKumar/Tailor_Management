@@ -12,7 +12,7 @@ export interface Dress{
 export interface MeasurementDocument extends Document {
     customerId: string;
     orderId: string;
-    dress: Dress[];
+    dressMeasures: Dress[];
 }
 
 const dressSchema: Schema = new Schema<Dress>({
@@ -28,7 +28,7 @@ const dressSchema: Schema = new Schema<Dress>({
 const MeasurementSchema: Schema = new Schema ({
     customerId: {type: String, required: true},
     orderId: {type: String, required: true},
-    dress: {type: [dressSchema], required: true}
+    dressMeasures: {type: [dressSchema], required: true}
 
 });
 

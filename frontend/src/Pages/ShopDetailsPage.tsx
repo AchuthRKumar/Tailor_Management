@@ -16,7 +16,7 @@ const ShopDetailsPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [dressM, setdressM] = useState({
-    name: '',
+    name: dress,
     chest: 0,
     waist: 0,
     len: 0,
@@ -27,11 +27,6 @@ const ShopDetailsPage = () => {
   }
   );
 
-  const [measurement, setMeasurement] = useState([{
-    customerId: '',
-    orderId: '',
-    dress: [dressM]
-  }])
 
   useEffect(() => {
     const fetchTailorDetails = async () => {
@@ -60,8 +55,26 @@ const ShopDetailsPage = () => {
       dresses: [dress],
     };
 
-
     const response = await axios.post('http://localhost:5010/api/order/', orderData);
+    
+    const measurementData = {
+      customerId: orderData.customerId, 
+      orderId: response.data._id,
+      dressMeasures: [{
+        name: dress,
+        chest: dressM.chest,
+        waist: dressM.waist,
+        length: dressM.len,
+        sleeve: dressM.sleeve,
+        inseam: dressM.inseam,
+        collar: dressM.collar,
+        shoulder: dressM.shoulder
+      }]
+    }
+
+    const res = await axios.post('http://localhost:5010/api/measurement/', measurementData);
+
+
   };
 
   if (loading) {
@@ -120,7 +133,7 @@ const ShopDetailsPage = () => {
                       </Field>
 
                       <Field label="Dress Length (inches)">
-                        <Input name="length" type="number" value={dressM.len}  onChange={(e) => setdressM(prevState => ({...prevState, length: Number(e.target.value)}))}/>
+                        <Input name="length" type="number" value={dressM.len}  onChange={(e) => setdressM(prevState => ({...prevState, len: Number(e.target.value)}))}/>
                       </Field>
 
                       <Field label="Sleeve Length (inches)">
@@ -128,11 +141,11 @@ const ShopDetailsPage = () => {
                       </Field>
 
                       <Field label="Chest Measurement (inches)">
-                        <Input name="chest" type="number" value={dressM.chest} />
+                        <Input name="chest" type="number" value={dressM.chest} onChange={(e) => setdressM(prevState => ({...prevState, chest: Number(e.target.value)}))}/>
                       </Field>
 
                       <Field label="Shoulder Width (inches)">
-                        <Input name="shoulder" type="number" value={dressM.shoulder} />
+                        <Input name="shoulder" type="number" value={dressM.shoulder} onChange={(e) => setdressM(prevState => ({...prevState, shoulder: Number(e.target.value)}))}/>
                       </Field>
                     </Fieldset.Content>
                   </Fieldset.Root>
@@ -150,8 +163,9 @@ const ShopDetailsPage = () => {
             <Button variant="outline" onClick={() => navigate(-1)}>Cancel</Button>
           </VStack>
         </Center>
-        <Footer />
+        
       </Box>
+      <Footer />
     </>
   );
 };
