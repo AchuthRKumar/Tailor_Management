@@ -101,5 +101,17 @@ export const TailorController = {
             console.error(error); // Log the error for debugging
             res.status(500).send('Internal Server Error');
         }
+    },
+
+    //get tailors by firebaseUid
+    getByUid: async (req: Request, res: Response, next: NextFunction) => {
+        const firebaseUid = req.params.firebaseUid;
+        try {
+            const tailors = await TailorModel.find({ firebaseUid:firebaseUid });
+            res.json(tailors);
+        } catch (error) {
+            console.error(error); // Log the error for debugging
+            res.status(500).send('Internal Server Error');
+        }
     }
 };

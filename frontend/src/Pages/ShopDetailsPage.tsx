@@ -73,7 +73,9 @@ const ShopDetailsPage = () => {
     }
 
     const res = await axios.post('http://localhost:5010/api/measurement/', measurementData);
-
+    if(!res){
+      console.log("error");
+    }
 
   };
 

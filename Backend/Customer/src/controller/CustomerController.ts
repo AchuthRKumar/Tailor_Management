@@ -76,3 +76,19 @@ export const getOrdersForCustomer = async (req: Request, res: Response, next: Ne
         }
     }
 };
+
+
+//Get a customer for a specific firebaseUid
+
+export const getCustomer = async (req: Request, res: Response, next: NextFunction) => {
+    const firebaseUid = req.params.firebaseUid;
+    try {
+        const customer = await Customer.findOne({ firebaseUid: firebaseUid });
+        if (!customer) {
+            return res.status(404).json({ error: "Customer not found" });
+        }
+        res.json(customer);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch customer" });
+    }
+};
