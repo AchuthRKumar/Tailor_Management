@@ -28,7 +28,7 @@ const App: React.FC = () => {
                     <Route path="/shop/:tailorId" element={<ShopDetailsPage />} />
                     <Route path="/dresslist" element={<DressList />} /> 
                     <Route path="/customerhome" element={<CustomerHomePage />} />
-                    <Route path="/treports" element={<TailorReportsPage />} />
+                    {/* <Route path="/treports" element={<TailorReportsPage />} /> */}
                     {/* <Route path="/order-options" element={<OrderOptionsPage />} /> */}
                 </Routes>
             </Router>
