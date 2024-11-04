@@ -7,7 +7,7 @@ import { LuCheck } from "react-icons/lu"; // Icons for save action
 import { FaEdit, FaTrash } from "react-icons/fa"; // Import FaEdit and FaTrash icons
 
 const Profile: React.FC = () => {
-  const [status, setStatus] = useState('closed'); // Status state
+  const [status, setStatus] = useState('open'); // Status state
   const [deliveryOption, setDeliveryOption] = useState('yes'); // Delivery option state
 
   // States for editable fields

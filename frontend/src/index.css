@@ -3,16 +3,28 @@
 
 /* Body Styling */
 body {
-  font-family: 'Poppins'; 
+  font-family: 'Poppins';
   margin: 0;
   padding: 0;
-  background-color: #ffffff;
+  background-color: #fefefd;
+
 }
 
 .landing-page {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+}
+
+main {
+  flex-grow: 1; /* This will push the footer down */
+}
+
+/* Landing Page - Main Content */
+.landing-page {
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* This will push the footer down */
   position: relative;
   overflow: hidden;
 }
@@ -152,12 +164,15 @@ body {
 
 /* Footer */
 /* Footer Styling */
+
 .footer {
   background-color: #1e1e1e;
   color: #f0f0f0;
   padding: 3rem 1rem;
-  position: relative;
-  overflow: hidden;
+  text-align: center;
+  width: 100%; /* Ensures full width without gaps */
+  box-sizing: border-box;
+  margin-top: 100px; /* Ensures it only appears at the bottom */
 }
 
 .footer__columns {
