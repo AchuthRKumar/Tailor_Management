@@ -7,12 +7,13 @@ import { useNavigate } from 'react-router-dom';
 import Footer from '../Components/Footer';
 import { auth, db } from '../firebase'; // Ensure you have db imported
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
 import axios from 'axios';
+import { useUserContext } from '../UserContext'; // Import your custom hook
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
-  
+
+  const { setUser } = useUserContext();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -26,15 +27,18 @@ const LoginPage: React.FC = () => {
       // Sign in with Firebase
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-      // Fetch user role from Firestore
-      const userDoc = await axios.get(`http://localhost:5010/api/customer/uid/${user.uid}`);
-      console.log(userDoc.data);
+      
+
+      const userDoc = await axios.get(`http://localhost:5010/api/user/${user.uid}`);
+      
       if (userDoc) {
         const role = userDoc.data.role;
         console.log(role);
         if (role === 'tailor') {
+          setUser(userDoc.data);
           navigate('/tailorhome');
         } else if (role === 'customer') {
+          setUser(userDoc.data);
           navigate('/customerhome');
         } else {
           setError('Unknown user role');

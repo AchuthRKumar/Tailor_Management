@@ -71,10 +71,16 @@ const RegistrationPageUser: React.FC = () => {
         role: "customer", // Assigning role as customer
         firebaseUid: user.uid, // Store Firebase UID for reference
       };
-  
+      
+      const useru = {
+        firebaseUid: user.uid,
+        name,
+        role: "customer",
+      }
       // await setDoc(doc(db, 'customer', user.uid), userData);
   
       await axios.post('http://localhost:5010/api/customer', userData);
+      await axios.post('http://localhost:5010/api/user', useru);
       
       alert('Registration successful!');
       navigate('/'); 

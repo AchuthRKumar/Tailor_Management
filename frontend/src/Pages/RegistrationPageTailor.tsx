@@ -71,8 +71,15 @@ const RegistrationTailorOrderPage: React.FC = () => {
         role: "tailor",
         firebaseUid: user.uid,
       };
-      // await setDoc(doc(db, 'tailor', user.uid), tailorData);
+
+      const tailort = {
+        firebaseUid: user.uid,
+        name,
+        role: "tailor"
+      }
       const res = await axios.post('http://localhost:5010/api/tailor', tailorData);
+      await axios.post('http://localhost:5010/api/user', tailort);
+      
       alert('Registration successful!');
       navigate('/'); // Redirect after successful registration
     } catch (error) {
