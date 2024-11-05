@@ -1,4 +1,5 @@
 import React from 'react';
+ // Make sure to add styles here
 
 const Footer: React.FC = () => {
   return (
@@ -74,7 +75,7 @@ const Footer: React.FC = () => {
           </div>
         </div>
         <div className="footer__copyrights">
-          <p>Crafted with care by <a href="https://yourwebsite.com" target="_blank" rel="noopener noreferrer">@TailorNest</a></p>
+          <p>&copy; {new Date().getFullYear()} TailorNest. All rights reserved.</p>
         </div>
       </div>
     </footer>
