@@ -49,8 +49,8 @@ const ShopListPage = () => {
     return <div>{error}</div>;
   }
 
-  const handlePlaceOrder = (tailorId) => {
-    navigate(`/shop/${dress}/${tailorId}`);
+  const handlePlaceOrder = (firebaseUid) => {
+    navigate(`/shop/${dress}/${firebaseUid}`);
   };
 
   return (
@@ -67,7 +67,7 @@ const ShopListPage = () => {
             if (!specificDress) return null;
 
             return (
-              <Card.Root width="320px" variant="subtle" key={tailor._id} shadow="lg">
+              <Card.Root width="320px" variant="subtle" key={tailor.firebaseUid} shadow="lg">
                 <Card.Body gap="2">
                   <HStack>
                     <Avatar
@@ -87,7 +87,7 @@ const ShopListPage = () => {
                   <Rating value={tailor.averageRating} readOnly />
                 </Card.Body>
                 <Card.Footer justifyContent="flex-end">
-                  <Button variant="outline" onClick={() => handlePlaceOrder(tailor._id)}>
+                  <Button variant="outline" onClick={() => handlePlaceOrder(tailor.firebaseUid)}>
                     View shop
                   </Button>
                 </Card.Footer>

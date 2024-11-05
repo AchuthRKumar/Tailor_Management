@@ -43,10 +43,10 @@ export const TailorController = {
 
     //Updating the tailor-shop details
     updateTailor: async (req: Request, res: Response) => {
-        const tailorId = req.params.tailorId;
+        const firebaseUid = req.params.firebaseUid;
         const updates = req.body;
         try {
-            const updatedTailor = await TailorModel.findByIdAndUpdate(tailorId, updates, { new: true });
+            const updatedTailor = await TailorModel.findByIdAndUpdate(firebaseUid, updates, { new: true });
             if (updatedTailor) {
                 res.json(updatedTailor);
             } else {

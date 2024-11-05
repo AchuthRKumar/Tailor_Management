@@ -33,7 +33,7 @@ const LoginPage: React.FC = () => {
       
       if (userDoc) {
         const role = userDoc.data.role;
-        console.log(role);
+        
         if (role === 'tailor') {
           setUser(userDoc.data);
           navigate('/tailorhome');

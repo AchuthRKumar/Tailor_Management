@@ -7,9 +7,12 @@ import TopBarCust from '../Components/TopBarCust';
 import { DialogActionTrigger, DialogBody, DialogCloseTrigger, DialogContent, DialogFooter, DialogHeader, DialogRoot, DialogTitle, DialogTrigger, } from "../Components/ui/dialog"
 import { Fieldset, Input, Stack } from "@chakra-ui/react"
 import { Field } from "../Components/ui/field"
+import { useUserContext } from '../UserContext'; 
+
 
 const ShopDetailsPage = () => {
-  const { tailorId } = useParams();
+  const { user, logout } = useUserContext();
+  const { firebaseUidt } = useParams();
   const { dress } = useParams();
   const navigate = useNavigate();
   const [tailor, setTailor] = useState(null);
@@ -31,7 +34,7 @@ const ShopDetailsPage = () => {
   useEffect(() => {
     const fetchTailorDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:5010/api/tailor/${tailorId}`);
+        const response = await axios.get(`http://localhost:5010/api/tailor/uid/${firebaseUidt}`);
         setTailor(response.data);
       } catch (err) {
         setError('Error fetching tailor details');
@@ -41,12 +44,12 @@ const ShopDetailsPage = () => {
     };
 
     fetchTailorDetails();
-  }, [tailorId]);
+  }, [firebaseUidt]);
 
   const handlePlaceOrder = async () => {
     const orderData = {
-      customerId: 'customer123',
-      tailorId: tailorId,
+      firebaseUidc: user?.firebaseUid,
+      firebaseUidt: firebaseUidt,
       deliveryDate: new Date(),
       orderStatus: 'Pending',
       amount: (tailor.dress.find(d => d.name === dress)).price.toFixed(2),
@@ -58,7 +61,7 @@ const ShopDetailsPage = () => {
     const response = await axios.post('http://localhost:5010/api/order/', orderData);
     
     const measurementData = {
-      customerId: orderData.customerId, 
+      customerId: orderData.firebaseUidc, 
       orderId: response.data._id,
       dressMeasures: [{
         name: dress,
