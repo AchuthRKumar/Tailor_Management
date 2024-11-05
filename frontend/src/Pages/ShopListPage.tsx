@@ -21,7 +21,7 @@ const ShopListPage = () => {
       try {
         const response = await axios.get(`http://localhost:5010/api/tailor/dress/${dress}`);
         const tailorsWithRatings = await Promise.all(response.data.map(async (tailor) => {
-          const ratingResponse = await axios.get(`http://localhost:5010/api/review/${tailor._id}`);
+          const ratingResponse = await axios.get(`http://localhost:5010/api/review/${tailor.firebaseUid}`);
           const ratings = ratingResponse.data;
           const averageRating = ratings.length > 0 
             ? ratings.reduce((sum, review) => sum + review.rating, 0) / ratings.length 
