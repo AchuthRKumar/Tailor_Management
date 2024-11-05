@@ -1,36 +1,60 @@
-"use client";
-
-import React, { useState } from 'react';
-import { Box, Heading, Textarea, Input, HStack, IconButton } from '@chakra-ui/react';
+import React, { useState, useEffect, useContext } from 'react';
+import { Box, Heading, Textarea, Input, HStack, IconButton, Spinner, Alert } from '@chakra-ui/react';
 import { Radio, RadioGroup } from "../Components/ui/radio"; // Adjust the import path if needed
 import { LuCheck } from "react-icons/lu"; // Icons for save action
 import { FaEdit, FaTrash } from "react-icons/fa"; // Import FaEdit and FaTrash icons
+import axios from 'axios';
+import { useUserContext } from '../UserContext';
 
 const Profile: React.FC = () => {
+  const { user, logout } = useUserContext();
   const [status, setStatus] = useState('open'); // Status state
   const [deliveryOption, setDeliveryOption] = useState('yes'); // Delivery option state
 
   // States for editable fields
   const [isEditingShopName, setIsEditingShopName] = useState(false);
-  const [shopName, setShopName] = useState('Enter shop\'s name');
-
+  const [shopName, setShopName] = useState('');
   const [isEditingDescription, setIsEditingDescription] = useState(false);
-  const [shopDescription, setShopDescription] = useState('Describe your shop...');
-
+  const [shopDescription, setShopDescription] = useState('');
   const [isEditingTailorName, setIsEditingTailorName] = useState(false);
-  const [tailorName, setTailorName] = useState('Enter tailor\'s name');
-
+  const [tailorName, setTailorName] = useState('');
   const [isEditingLocation, setIsEditingLocation] = useState(false);
-  const [location, setLocation] = useState('Enter location');
-
+  const [location, setLocation] = useState('');
   const [isEditingEmail, setIsEditingEmail] = useState(false);
-  const [email, setEmail] = useState('Enter email');
-
+  const [email, setEmail] = useState('');
   const [isEditingPhoneNumber, setIsEditingPhoneNumber] = useState(false);
-  const [phoneNumber, setPhoneNumber] = useState('Enter phone number');
-
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [isEditingClothesType, setIsEditingClothesType] = useState(false);
-  const [clothesType, setClothesType] = useState('List types of clothes you stitch...');
+  const [clothesType, setClothesType] = useState('');
+
+  // Loading and error states
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const fetchTailorData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5010/api/tailor/uid/${user?.firebaseUid}`);
+        const tailorData = response.data; // Assuming this is the structure of your data
+        // Set state with fetched data
+        setShopName(tailorData.shopName);
+        setShopDescription(tailorData.shopDescription);
+        setTailorName(tailorData.tailorName);
+        setLocation(tailorData.location);
+        setEmail(tailorData.email);
+        setPhoneNumber(tailorData.phoneNumber);
+        setClothesType(tailorData.clothesType);
+        setStatus(tailorData.status || 'open'); // Default to 'open' if status is not available
+        setDeliveryOption(tailorData.deliveryOption || 'yes'); // Default to 'yes' if not set
+      } catch (err) {
+        setError('Failed to load tailor data');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTailorData();
+  }, [user]);
 
   const handleSave = (field: string) => {
     switch (field) {
@@ -60,41 +84,52 @@ const Profile: React.FC = () => {
     }
   };
 
-  // Function to handle trash icon click
   const handleDelete = (field: string) => {
     switch (field) {
       case 'shopName':
-        setShopName(''); // Clear the shop name
+        setShopName('');
         setIsEditingShopName(false);
         break;
       case 'description':
-        setShopDescription(''); // Clear the shop description
+        setShopDescription('');
         setIsEditingDescription(false);
         break;
       case 'tailorName':
-        setTailorName(''); // Clear the tailor name
+        setTailorName('');
         setIsEditingTailorName(false);
         break;
       case 'location':
-        setLocation(''); // Clear the location
+        setLocation('');
         setIsEditingLocation(false);
         break;
       case 'email':
-        setEmail(''); // Clear the email
+        setEmail('');
         setIsEditingEmail(false);
         break;
       case 'phoneNumber':
-        setPhoneNumber(''); // Clear the phone number
+        setPhoneNumber('');
         setIsEditingPhoneNumber(false);
         break;
       case 'clothesType':
-        setClothesType(''); // Clear the clothes type
+        setClothesType('');
         setIsEditingClothesType(false);
         break;
       default:
         break;
     }
   };
+
+  if (loading) {
+    return <Spinner size="xl" />;
+  }
+
+  if (error) {
+    return (
+      <Alert status="error" mb={4}>
+        {error}
+      </Alert>
+    );
+  }
 
   return (
     <>
@@ -391,8 +426,8 @@ const Profile: React.FC = () => {
         </Heading>
         {isEditingClothesType ? (
           <>
-            <Textarea 
-              value={clothesType}
+            <Input 
+              value={clothesType} 
               onChange={(e) => setClothesType(e.target.value)} 
               size="lg" 
             />

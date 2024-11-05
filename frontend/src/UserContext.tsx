@@ -3,9 +3,10 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import axios from 'axios';
 
 interface User {
-    uid: string;
+    firebaseUid: string;
     name: string;
     role: string;
+    _id: string;
 }
 
 const UserContext = createContext<{
