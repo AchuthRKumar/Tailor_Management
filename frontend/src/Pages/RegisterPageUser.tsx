@@ -94,7 +94,7 @@ const RegistrationPageUser: React.FC = () => {
   return (
     <>
       <div className="login-container" style={{ 
-        background: 'linear-gradient(to bottom right, #d4edda, #c3e6cb)', 
+        
         padding: '20px', 
         minHeight: '100vh' 
       }}>

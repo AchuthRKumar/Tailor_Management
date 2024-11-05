@@ -30,6 +30,15 @@ const AdminDashboardPage: React.FC = () => {
     fetchCustomers();
   }, []);
 
+  const handleRemoveUser = async (id: number) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/customer/${id}`);
+      setUsers(users.filter(user => user.id !== id));
+    } catch (error) {
+      console.error("Failed to remove user");
+    }
+  };
+
   const handleRemoveTailor = (id: number) => {
     setTailors(tailors.filter(tailor => tailor.id !== id));
   };
@@ -39,7 +48,7 @@ const AdminDashboardPage: React.FC = () => {
 
   return (
     <>
-      <TopBar/>
+      <TopBar />
       <Box bg="gray.50" minH="100vh">
         <Container maxW="container.lg" mt={6} p={4}>
           <Heading as="h1" size="2xl" mb={4} textAlign="center" color="teal.600">
@@ -76,17 +85,25 @@ const AdminDashboardPage: React.FC = () => {
                 <Table.Row>
                   <Table.ColumnHeader>Name</Table.ColumnHeader>
                   <Table.ColumnHeader>Email</Table.ColumnHeader>
-                  <Table.ColumnHeader>Role</Table.ColumnHeader>
+                  <Table.ColumnHeader>Phone Number</Table.ColumnHeader>
+                  <Table.ColumnHeader>Actions</Table.ColumnHeader>
                 </Table.Row>
               </Table.Header>
               <Table.Body>
-                {users.filter(user => user.name.toLowerCase().includes(userSearch.toLowerCase())).map(user => (
-                  <Table.Row key={user.id}>
-                    <Table.Cell>{user.name}</Table.Cell>
-                    <Table.Cell>{user.email}</Table.Cell>
-                    <Table.Cell>{user.role}</Table.Cell>
-                  </Table.Row>
-                ))}
+                {users
+                  .filter(user => user.name.toLowerCase().includes(userSearch.toLowerCase()))
+                  .map(user => (
+                    <Table.Row key={user.id}>
+                      <Table.Cell>{user.name}</Table.Cell>
+                      <Table.Cell>{user.email}</Table.Cell>
+                      <Table.Cell>{user.phno}</Table.Cell>
+                      <Table.Cell>
+                        <Button colorScheme="red" onClick={() => handleRemoveUser(user.id)}>
+                          Remove
+                        </Button>
+                      </Table.Cell>
+                    </Table.Row>
+                  ))}
               </Table.Body>
             </Table.Root>
           </Box>
@@ -109,17 +126,19 @@ const AdminDashboardPage: React.FC = () => {
                 </Table.Row>
               </Table.Header>
               <Table.Body>
-                {tailors.filter(tailor => tailor.name.toLowerCase().includes(tailorSearch.toLowerCase())).map(tailor => (
-                  <Table.Row key={tailor.id}>
-                    <Table.Cell>{tailor.name}</Table.Cell>
-                    <Table.Cell>{tailor.rating}</Table.Cell>
-                    <Table.Cell>
-                      <Button colorScheme="red" onClick={() => handleRemoveTailor(tailor.id)}>
-                        Remove
-                      </Button>
-                    </Table.Cell>
-                  </Table.Row>
-                ))}
+                {tailors
+                  .filter(tailor => tailor.name.toLowerCase().includes(tailorSearch.toLowerCase()))
+                  .map(tailor => (
+                    <Table.Row key={tailor.id}>
+                      <Table.Cell>{tailor.name}</Table.Cell>
+                      <Table.Cell>{tailor.rating}</Table.Cell>
+                      <Table.Cell>
+                        <Button colorScheme="red" onClick={() => handleRemoveTailor(tailor.id)}>
+                          Remove
+                        </Button>
+                      </Table.Cell>
+                    </Table.Row>
+                  ))}
               </Table.Body>
             </Table.Root>
           </Box>
@@ -144,21 +163,23 @@ const AdminDashboardPage: React.FC = () => {
                 </Table.Row>
               </Table.Header>
               <Table.Body>
-                {orders.filter(order => order.clientName.toLowerCase().includes(orderSearch.toLowerCase())).map(order => (
-                  <Table.Row key={order.id}>
-                    <Table.Cell>{order.clientName}</Table.Cell>
-                    <Table.Cell>{order.tailor}</Table.Cell>
-                    <Table.Cell>{order.status}</Table.Cell>
-                    <Table.Cell>{order.amount}</Table.Cell>
-                    <Table.Cell>{order.date}</Table.Cell>
-                  </Table.Row>
-                ))}
+                {orders
+                  .filter(order => order.clientName.toLowerCase().includes(orderSearch.toLowerCase()))
+                  .map(order => (
+                    <Table.Row key={order.id}>
+                      <Table.Cell>{order.clientName}</Table.Cell>
+                      <Table.Cell>{order.tailor}</Table.Cell>
+                      <Table.Cell>{order.status}</Table.Cell>
+                      <Table.Cell>{order.amount}</Table.Cell>
+                      <Table.Cell>{order.date}</Table.Cell>
+                    </Table.Row>
+                  ))}
               </Table.Body>
             </Table.Root>
           </Box>
         </Container>
       </Box>
-      <Footer/>
+      <Footer />
     </>
   );
 };
