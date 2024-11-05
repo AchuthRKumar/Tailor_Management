@@ -198,7 +198,8 @@ const LandingPage: React.FC = () => {
       {/* Call to Action Button */}
       <Stack direction="row" justify="center" mt="10">
         <Button
-          size="lg"
+          size="2xl"
+          width={'2/12'}
           colorScheme="blue"
           borderRadius="full"
           px="8"
