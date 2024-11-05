@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import TopBar from '../Components/TopBar';
 import SearchBar from '../Components/SearchBar';
 import Footer from '../Components/Footer';
+import { useNavigate } from 'react-router-dom';
 
 // Variants for Framer Motion
 const sectionVariants = {
@@ -12,6 +13,12 @@ const sectionVariants = {
 };
 
 const LandingPage: React.FC = () => {
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    navigate('/login');
+    window.scrollTo(0, 0);
+  };
   const [count, setCount] = useState(0);
 
   useEffect(() => {
@@ -136,16 +143,16 @@ const LandingPage: React.FC = () => {
       </Flex>
 
       {/* About Us Section */}
-      <Box id="about-us" bg="#e6f5e9" color="black" pt="10rem" pb="10rem" textAlign="center">
+      <Box id="about-us" height={'vh'} bg="#e6f5e9" color="black" pt="10rem" pb="10rem" textAlign="center">
         <Box as={motion.div} variants={sectionVariants} initial="hidden" animate="visible" transition={{ duration: 0.5 }} maxW="700px" mx="auto" mb="6">
-          <Heading as="h2" fontSize="4xl" mb="6" fontFamily="'Playfair Display', serif" color="#2d3748">
+          <Heading as="h2" fontSize="5xl" mb="6" fontFamily="'Playfair Display', serif" color="#2d3748" mt={10}>
             About Us
           </Heading>
-          <Text fontSize="lg" fontFamily="Poppins" mb="4">
+          <Text fontSize="larger" fontFamily="Poppins" mb="4" mt={'20'}>
             At TailorNest, we are passionate about connecting skilled artisans with those seeking personalized clothing
             solutions. Our community values creativity, craftsmanship, and the unique stories woven into every piece.
           </Text>
-          <Text fontSize="lg" fontFamily="Poppins">
+          <Text fontSize="larger" fontFamily="Poppins">
             Our journey began with a vision to create a platform where tailors and clients can collaborate effortlessly,
             ensuring that every garment is a true reflection of individual style and identity.
           </Text>
@@ -153,17 +160,17 @@ const LandingPage: React.FC = () => {
       </Box>
 
       {/* What We Do Section */}
-      <Box id="what-we-do" bg="#daf7f5" color="black" pt="10rem" pb="10rem" textAlign="center">
+      <Box id="what-we-do" height={'vh'} bg="#daf7f5" color="black" pt="10rem" pb="10rem" textAlign="center">
         <Box as={motion.div} variants={sectionVariants} initial="hidden" animate="visible" transition={{ duration: 0.5 }} maxW="700px" mx="auto" mb="6">
-          <Heading as="h2" fontSize="4xl" mb="6" fontFamily="'Playfair Display', serif" color="#2d3748">
+          <Heading as="h2" fontSize="5xl" mb="6" fontFamily="'Playfair Display', serif" color="#2d3748" mt={10}>
             What We Do
           </Heading>
-          <Text fontSize="lg" fontFamily="Poppins" mb="4">
+          <Text fontSize="larger" fontFamily="Poppins" mb="4" mt={'20'}>
             We provide a range of tailoring services including custom clothing design, alterations, and styling
             consultations. Our expert tailors are dedicated to crafting garments that not only fit perfectly but also
             reflect your personal style.
           </Text>
-          <Text fontSize="lg" fontFamily="Poppins">
+          <Text fontSize="larger" fontFamily="Poppins">
             Whether it's a wedding dress, a business suit, or casual wear, we ensure that each piece is made with
             precision and care.
           </Text>
@@ -171,17 +178,17 @@ const LandingPage: React.FC = () => {
       </Box>
 
       {/* Our Story Section */}
-      <Box id="our-story" bg="#e0e4f7" color="black" pt="10rem" pb="10rem" textAlign="center">
+      <Box id="our-story" height={'vh'} bg="#e0e4f7" color="black" pt="10rem" pb="10rem" textAlign="center">
         <Box as={motion.div} variants={sectionVariants} initial="hidden" animate="visible" transition={{ duration: 0.5 }} maxW="700px" mx="auto" mb="6">
-          <Heading as="h2" fontSize="4xl" mb="6" fontFamily="'Playfair Display', serif" color="#2d3748">
+          <Heading as="h2" fontSize="5xl" mb="6" fontFamily="'Playfair Display', serif" color="#2d3748">
             Our Story
           </Heading>
-          <Text fontSize="lg" fontFamily="Poppins" mb="4">
+          <Text fontSize="larger" fontFamily="Poppins" mb="4" mt={'20'}>
             Our journey began in a small workshop, where our founders shared their love for fashion and tailoring. Over
             the years, we have grown into a thriving community of tailors and clients. Our story is one of resilience,
             creativity, and dedication to craftsmanship, and we are excited to continue this journey with you.
           </Text>
-          <Text fontSize="lg" fontFamily="Poppins">
+          <Text fontSize="larger" fontFamily="Poppins">
             Join us as we strive to create a platform that not only celebrates individuality but also fosters a sense of
             belonging within the tailoring community.
           </Text>
@@ -198,6 +205,7 @@ const LandingPage: React.FC = () => {
           boxShadow="md"
           transition="transform 0.2s"
           _hover={{ transform: 'scale(1.05)' }}
+          onClick={handleLogin}
         >
           Get Started
         </Button>
