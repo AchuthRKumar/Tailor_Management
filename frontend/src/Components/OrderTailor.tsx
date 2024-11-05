@@ -50,7 +50,7 @@ const OrdersTailor: React.FC = () => {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const response = await axios.get(`http://localhost:5010/api/order/tailor/${user?.uid}`);
+                const response = await axios.get(`http://localhost:5010/api/order/tailor/${user?.firebaseUid}`);
                 setOrders(response.data);
                 setUpdatedOrders(response.data);
             } catch (error) {
@@ -79,7 +79,7 @@ const OrdersTailor: React.FC = () => {
                 axios.put(`http://localhost:5010/api/order/tailor/${order._id}`, order)
             );
             await Promise.all(updatePromises);
-            const response = await axios.get('http://localhost:5010/api/order/tailor/tailor1');
+            const response = await axios.get(`http://localhost:5010/api/order/tailor/${user?.firebaseUid}`);
             setOrders(response.data);
             setHasChanges(false);
         } catch (error) {
