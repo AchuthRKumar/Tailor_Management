@@ -39,7 +39,7 @@ const dressItems = [
         image: "https://th.bing.com/th/id/OIP.6nAFbFG4W7Q2bKdTLlQouAHaHa?w=600&h=600&rs=1&pid=ImgDetMain"
     },
     {
-        title: "Salwar Kameez",
+        title: "Salwaar Kameez",
         description: "This salwar kameez offers comfort and style, making it ideal for daily wear or family gatherings.",
         image: "https://lerevecraze.s3.ap-southeast-1.amazonaws.com/wp-content/uploads/customer-registration/6f761eabdc6882123c8d6f64477a5ac8.jpg"
     },

@@ -3,8 +3,8 @@ import { addReview, getReviews, pReview, nReview } from '../controller/ReviewCon
 
 const router = express.Router();
 
-router.post('/:customerId', addReview );
-router.get('/:tailorId', getReviews);
+router.post('/:firebaseUidc', addReview );
+router.get('/:firebaseUidt', getReviews);
 router.get('/p', pReview);
 router.get('/n', nReview);
 

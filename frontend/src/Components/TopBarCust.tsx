@@ -26,7 +26,6 @@ const TopBarCust: React.FC = () => {
     const fetchCustomer = async () => {
     if(user?.firebaseUid) {
       try{
-        console.log(user)
         const res = await axios.get(`http://localhost:5010/api/customer/uid/${user?.firebaseUid}`);
         setCustomerData(res.data);
       } catch(e){

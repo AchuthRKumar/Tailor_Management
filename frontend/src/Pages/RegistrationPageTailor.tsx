@@ -106,7 +106,7 @@ const RegistrationTailorOrderPage: React.FC = () => {
     "Sherwani",
     "Suits", 
     "Blazers",
-    "Salwaar Kammez",
+    "Salwaar Kameez",
     "Skirts", 
     "Lehengas",
     "Anarkali Suits",
