@@ -49,8 +49,8 @@ const ShopListPage = () => {
     return <div>{error}</div>;
   }
 
-  const handlePlaceOrder = (firebaseUid) => {
-    navigate(`/shop/${dress}/${firebaseUid}`);
+  const handlePlaceOrder = (firebaseUidt) => {
+    navigate(`/shop/${dress}/${firebaseUidt}`);
   };
 
   return (

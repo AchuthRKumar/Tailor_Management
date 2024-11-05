@@ -13,9 +13,9 @@ export const OrderController = {
     },
 
     getOrdersByCustomer: async (req: Request, res: Response) => {
-        const customerId = req.params.customerId;
+        const firebaseUidc = req.params.firebaseUidc;
         try {
-            const orders = await OrderModel.find({ customerId });
+            const orders = await OrderModel.find({ firebaseUidc:firebaseUidc });
             res.json(orders);
         } catch (error) {
             res.status(500).send('Server Error');

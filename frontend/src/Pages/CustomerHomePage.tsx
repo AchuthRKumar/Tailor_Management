@@ -5,6 +5,7 @@ import SearchBar from "../Components/SearchBar";
 import TopBarCust from "../Components/TopBarCust";
 import DressList from "../Components/DressList";
 import Footer from "../Components/Footer";
+import { useUserContext } from '../UserContext'; 
 import {
   DrawerActionTrigger,
   DrawerBackdrop,
@@ -21,15 +22,21 @@ import { EmptyState } from "../Components/ui/empty-state"; // Adjust the import 
 import { LuShoppingCart } from "react-icons/lu";
 
 const CustomerHomePage: React.FC = () => {
+  const { user, logout } = useUserContext();
   const [currentSection, setCurrentSection] = useState<'home' | 'dashboard'>('home');
-  const [orders, setOrders] = useState<any[]>([]); // Use a proper type here for Order
+  const [orders, setOrders] = useState<any[]>([]);
+  const [tailor, setTailor] = useState<any []>([]);
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await axios.get(`http://localhost:5010/api/order/customer/customer1`);
-        console.log(res);
-        setOrders(res.data);
+        console.log(user?.firebaseUid)
+        const res = await axios.get(`http://localhost:5010/api/order/customer/${user?.firebaseUid}`);       
+        setOrders(res.data)
+        console.log(orders)
+        const tai = await axios.get(`http://localhost:5010/api/tailor/uid/${orders.firebaseUidc}`);
+        setTailor(tai.data);
+        console.log(tailor); 
       } catch (error) {
         console.error("Error fetching orders:", error);
         // Handle error appropriately
@@ -70,21 +77,23 @@ const CustomerHomePage: React.FC = () => {
                 </Table.ColumnGroup>
                 <Table.Header>
                   <Table.Row>
-                    <Table.ColumnHeader>Tailor ID</Table.ColumnHeader>
+                    <Table.ColumnHeader>Shop</Table.ColumnHeader>
                     <Table.ColumnHeader>Placed Date</Table.ColumnHeader>
                     <Table.ColumnHeader>Delivery Date</Table.ColumnHeader>
                     <Table.ColumnHeader>Dresses</Table.ColumnHeader>
                     <Table.ColumnHeader textAlign="end">Amount</Table.ColumnHeader>
+                    <Table.ColumnHeader> Order Status</Table.ColumnHeader>
                   </Table.Row>
                 </Table.Header>
                 <Table.Body>
                   {orders.map(order => (
                     <Table.Row key={order._id}>
-                      <Table.Cell>{order.tailorId}</Table.Cell>
+                      <Table.Cell>{tailor.name}</Table.Cell>
                       <Table.Cell>{new Date(order.placedDate).toLocaleDateString()}</Table.Cell>
                       <Table.Cell>{new Date(order.deliveryDate).toLocaleDateString()}</Table.Cell>
                       <Table.Cell>{order.dresses.join(", ")}</Table.Cell>
                       <Table.Cell textAlign="end">{order.amount.toFixed(2)}</Table.Cell>
+                      <Table.Cell>{order.orderStatus} </Table.Cell>
                     </Table.Row>
                   ))}
                 </Table.Body>
