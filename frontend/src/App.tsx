@@ -12,6 +12,7 @@ import DressList from './Components/DressList';
 import ShopListPage from './Pages/ShopListPage';
 import ShopDetailsPage from './Pages/ShopDetailsPage'; 
 import CustomerHomePage from './Pages/CustomerHomePage';
+import AdminHomePage from './Pages/AdminHomePage';
 
 const App: React.FC = () => {
     return (
@@ -27,6 +28,7 @@ const App: React.FC = () => {
                     <Route path="/shop/:dress/:tailorId" element={<ShopDetailsPage />} />
                     <Route path="/dresslist" element={<DressList />} /> 
                     <Route path="/customerhome" element={<CustomerHomePage />} />
+                    <Route path="/adminhome" element={<AdminHomePage />} />
                     {/* <Route path="/treports" element={<TailorReportsPage />} /> */}
                     {/* <Route path="/order-options" element={<OrderOptionsPage />} /> */}
                 </Routes>
