@@ -3,6 +3,8 @@ import { Table, Center, Heading, Box, Button } from '@chakra-ui/react';
 import { SegmentedControl } from "../Components/ui/segmented-control";
 import { Card } from "@chakra-ui/react";
 import axios from 'axios';
+import { useUserContext } from '../UserContext'; 
+
 import {
     DrawerBackdrop,
     DrawerBody,
@@ -36,6 +38,8 @@ interface Dress {
 }
 
 const OrdersTailor: React.FC = () => {
+
+    const { user, logout } = useUserContext();
     const [orders, setOrders] = useState<Order[]>([]);
     const [updatedOrders, setUpdatedOrders] = useState<Order[]>([]);
     const [hasChanges, setHasChanges] = useState<boolean>(false);
@@ -46,7 +50,7 @@ const OrdersTailor: React.FC = () => {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const response = await axios.get('http://localhost:5010/api/order/tailor/6727b96e7f2024067e9090b6');
+                const response = await axios.get(`http://localhost:5010/api/order/tailor/uid/${user?.uid}`);
                 setOrders(response.data);
                 setUpdatedOrders(response.data);
             } catch (error) {
