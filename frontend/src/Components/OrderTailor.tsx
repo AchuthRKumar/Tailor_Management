@@ -50,6 +50,7 @@ const OrdersTailor: React.FC = () => {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
+                console.log(user);
                 const response = await axios.get(`http://localhost:5010/api/order/tailor/${user?.firebaseUid}`);
                 setOrders(response.data);
                 setUpdatedOrders(response.data);

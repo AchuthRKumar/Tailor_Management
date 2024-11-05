@@ -26,6 +26,7 @@ const TopBarCust: React.FC = () => {
     const fetchCustomer = async () => {
     if(user?.firebaseUid) {
       try{
+        console.log(user)
         const res = await axios.get(`http://localhost:5010/api/customer/uid/${user?.firebaseUid}`);
         setCustomerData(res.data);
       } catch(e){
@@ -36,10 +37,6 @@ const TopBarCust: React.FC = () => {
   fetchCustomer();
 }, [user?.firebaseUid]);
 
-  const handleShops = () => {
-    navigate('/shops');
-  }
-
   const handleHome = () => {
     navigate('/customerhome');
   }
@@ -48,7 +45,6 @@ const TopBarCust: React.FC = () => {
       <Heading as="h2"  fontFamily="Newsreader" fontSize="2rem">TAILORNEST</Heading>
       <HStack>
         <Button variant="link" color="black" onClick={handleHome}>Home</Button>
-        <Button variant="link" color="black" onClick={handleShops}>Shops</Button>
         <Avatar size="xs" name={customerdata?.name} variant="solid" />
         <Stack gap="0">
             <Text fontWeight="medium">{customerdata?.name}</Text>

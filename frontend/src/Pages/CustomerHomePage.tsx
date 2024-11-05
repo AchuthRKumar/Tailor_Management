@@ -30,13 +30,11 @@ const CustomerHomePage: React.FC = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        console.log(user?.firebaseUid)
         const res = await axios.get(`http://localhost:5010/api/order/customer/${user?.firebaseUid}`);       
         setOrders(res.data)
-        console.log(orders)
+        console.log(orders);
         const tai = await axios.get(`http://localhost:5010/api/tailor/uid/${orders.firebaseUidc}`);
         setTailor(tai.data);
-        console.log(tailor); 
       } catch (error) {
         console.error("Error fetching orders:", error);
         // Handle error appropriately
