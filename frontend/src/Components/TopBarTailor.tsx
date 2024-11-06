@@ -1,22 +1,76 @@
-// src/components/TopBar.tsx
-import React from 'react';
-import { Stack, Flex, Heading, HStack, Button, Text, LinkOverlay } from '@chakra-ui/react';
-import { Avatar } from './ui/avatar';
+import React, { useEffect, useState } from 'react';
+import { Stack, Flex, Heading, HStack, Button, Text, Circle, Float, Avatar } from "@chakra-ui/react"
+import { useUserContext } from '../UserContext';
+import axios from 'axios';
+
+ interface Dress {
+  name: string;
+  price: number;
+}
+
+interface TailorData  {
+  name: string;
+  shopName: string;
+  location: string; 
+  email: string;
+  phone: string;
+  revenue: number;
+  ordersCount: number;
+  completed: number;
+  password: string;
+  status: string;
+  isDelivery: string;
+  dress: Dress[]; 
+  firebaseUid: string;
+  role: string;
+
+}
 
 const TopBar: React.FC = () => {
+  const { user, logout } = useUserContext();
+  const [tailorData, setTailorData] = useState<TailorData | null>(null);
+
+  useEffect(() => {
+    const fetchTailorData = async () => {
+      if (user?.firebaseUid) {
+        try {
+          const res = await axios.get(`http://localhost:5010/api/tailor/uid/${user?.firebaseUid}`);
+          setTailorData(res.data[0]);
+        } catch (error) {
+          console.error('Error fetching tailor data:', error);
+        }
+      }
+    };
+
+    fetchTailorData();
+  }, [user?.firebaseUid]);
+
+  const statusColor = tailorData?.status === 'open' ? 'green.500' : 'red.500';
+
   return (
     <Flex as="header" padding="1rem" bg="teal.500" color="white" justifyContent="space-between">
-      <Heading as="h2"  fontFamily="Newsreader" fontSize="2rem">TAILORNEST</Heading>
+      <Heading as="h2" fontFamily="Newsreader" fontSize="2rem">TAILORNEST</Heading>
       <HStack spacing={4}>
         <Button variant="link" color="black">Home</Button>
         <Button variant="link" color="black">Reports</Button>
-        <Avatar size="xs" name="User" variant="solid" />
+        
+        <Avatar.Root colorPalette="green" variant="subtle">
+          <Float placement="bottom-end" offsetX="1" offsetY="1">
+        <Circle
+          bg={statusColor}
+          size="8px"
+          outline="0.2em solid"
+          outlineColor="bg"
+        />
+      </Float>
+        </Avatar.Root>
+        
         <Stack gap="0">
-            <Text fontWeight="medium">User</Text>
-            <Text color="fg.muted" textStyle="sm">
-              Shop1
-            </Text>
-          </Stack>
+          <Text fontWeight="medium">{tailorData?.name || user?.name}</Text>
+          <Text color="fg.muted" textStyle="sm">
+            {tailorData?.shopName || 'Shop name not available'}
+          </Text>
+        </Stack>
       </HStack>
     </Flex>
   );

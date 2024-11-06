@@ -3,9 +3,9 @@ import OrderModel, { Order } from '../model/order';
 
 export const OrderController = {
     getOrdersByTailor: async (req: Request, res: Response) => {
-        const tailorId = req.params.tailorId;
+        const firebaseUidt = req.params.firebaseUidt;
         try {
-            const orders = await OrderModel.find({ tailorId });
+            const orders = await OrderModel.find({ firebaseUidt:firebaseUidt });
             res.json(orders);
         } catch (error) {
             res.status(500).send('Server Error');
@@ -13,9 +13,9 @@ export const OrderController = {
     },
 
     getOrdersByCustomer: async (req: Request, res: Response) => {
-        const customerId = req.params.customerId;
+        const firebaseUidc = req.params.firebaseUidc;
         try {
-            const orders = await OrderModel.find({ customerId });
+            const orders = await OrderModel.find({ firebaseUidc:firebaseUidc });
             res.json(orders);
         } catch (error) {
             res.status(500).send('Server Error');

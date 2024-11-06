@@ -21,7 +21,7 @@ const ShopListPage = () => {
       try {
         const response = await axios.get(`http://localhost:5010/api/tailor/dress/${dress}`);
         const tailorsWithRatings = await Promise.all(response.data.map(async (tailor) => {
-          const ratingResponse = await axios.get(`http://localhost:5010/api/review/${tailor._id}`);
+          const ratingResponse = await axios.get(`http://localhost:5010/api/review/${tailor.firebaseUid}`);
           const ratings = ratingResponse.data;
           const averageRating = ratings.length > 0 
             ? ratings.reduce((sum, review) => sum + review.rating, 0) / ratings.length 
@@ -49,8 +49,8 @@ const ShopListPage = () => {
     return <div>{error}</div>;
   }
 
-  const handlePlaceOrder = (tailorId) => {
-    navigate(`/shop/${dress}/${tailorId}`);
+  const handlePlaceOrder = (firebaseUidt) => {
+    navigate(`/shop/${dress}/${firebaseUidt}`);
   };
 
   return (
@@ -67,7 +67,7 @@ const ShopListPage = () => {
             if (!specificDress) return null;
 
             return (
-              <Card.Root width="320px" variant="subtle" key={tailor._id} shadow="lg">
+              <Card.Root width="320px" variant="subtle" key={tailor.firebaseUid} shadow="lg">
                 <Card.Body gap="2">
                   <HStack>
                     <Avatar
@@ -87,7 +87,7 @@ const ShopListPage = () => {
                   <Rating value={tailor.averageRating} readOnly />
                 </Card.Body>
                 <Card.Footer justifyContent="flex-end">
-                  <Button variant="outline" onClick={() => handlePlaceOrder(tailor._id)}>
+                  <Button variant="outline" onClick={() => handlePlaceOrder(tailor.firebaseUid)}>
                     View shop
                   </Button>
                 </Card.Footer>

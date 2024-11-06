@@ -43,10 +43,10 @@ export const TailorController = {
 
     //Updating the tailor-shop details
     updateTailor: async (req: Request, res: Response) => {
-        const tailorId = req.params.tailorId;
+        const firebaseUid = req.params.firebaseUid;
         const updates = req.body;
         try {
-            const updatedTailor = await TailorModel.findByIdAndUpdate(tailorId, updates, { new: true });
+            const updatedTailor = await TailorModel.findByIdAndUpdate(firebaseUid, updates, { new: true });
             if (updatedTailor) {
                 res.json(updatedTailor);
             } else {
@@ -96,6 +96,18 @@ export const TailorController = {
         const dressName = req.params.dress;
         try {
             const tailors = await TailorModel.find({ 'dress.name': dressName });
+            res.json(tailors);
+        } catch (error) {
+            console.error(error); // Log the error for debugging
+            res.status(500).send('Internal Server Error');
+        }
+    },
+
+    //get tailors by firebaseUid
+    getByUid: async (req: Request, res: Response, next: NextFunction) => {
+        const firebaseUid = req.params.firebaseUid;
+        try {
+            const tailors = await TailorModel.find({ firebaseUid:firebaseUid });
             res.json(tailors);
         } catch (error) {
             console.error(error); // Log the error for debugging

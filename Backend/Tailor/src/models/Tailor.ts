@@ -18,6 +18,9 @@ export interface Tailor extends Document {
     status: string;
     isDelivery: string;
     dress: Dress[]; 
+    firebaseUid: string;
+    role: string;
+
 }
 
 const dressSchema = new Schema<Dress>({
@@ -35,9 +38,11 @@ const tailorSchema = new Schema<Tailor>({
     revenue: { type: Number, default: 0 },
     ordersCount: { type: Number, default: 0 },
     completed: { type: Number, default: 0 },
-    status: { type: String, required: true },
+    status: { type: String, default: "open", required: false },
     isDelivery: { type: String, required: true },  
-    dress: { type: [dressSchema], required: true } 
+    dress: { type: [dressSchema], required: true } ,
+    firebaseUid: { type: String, required: true},
+    role : { type: String, required: true}
 });
 
 const TailorModel = model<Tailor>('Tailor', tailorSchema);
