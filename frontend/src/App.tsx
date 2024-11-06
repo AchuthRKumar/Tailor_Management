@@ -14,8 +14,11 @@ import ShopDetailsPage from './Pages/ShopDetailsPage';
 import CustomerHomePage from './Pages/CustomerHomePage';
 import AdminHomePage from './Pages/AdminHomePage';
 import ProtectedRoute from './ProtectedRoute';
+import Map from './map/Map'
+
 
 const App: React.FC = () => {
+  
   return (
     <Provider>
       <Router>
@@ -25,7 +28,7 @@ const App: React.FC = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/registerUser" element={<RegisterPageUser />} />
           <Route path="/registerTailor" element={<RegistrationPageTailor />} />
-
+          <Route path="/map" element={<Map />} />
           {/* Protected Routes */}
           <Route element={<ProtectedRoute role="customer" />}>
             {/* Customer-only pages */}
