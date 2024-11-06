@@ -19,9 +19,10 @@ import {
 } from "../Components/ui/drawer";
 import { EmptyState } from "../Components/ui/empty-state"; // Adjust the import path as necessary
 import { LuShoppingCart } from "react-icons/lu";
+import CustomerProfile from "../Components/CustomerProfile";
 
 const CustomerHomePage: React.FC = () => {
-  const [currentSection, setCurrentSection] = useState<'home' | 'dashboard'>('home');
+  const [currentSection, setCurrentSection] = useState<'home' | 'dashboard'| 'profile'>('home');
   const [orders, setOrders] = useState<any[]>([]); // Use a proper type here for Order
 
   useEffect(() => {
@@ -45,6 +46,8 @@ const CustomerHomePage: React.FC = () => {
     switch (currentSection) {
       case 'home':
         return <DressList />;
+      case 'profile':
+        return <CustomerProfile/>;
       case 'dashboard':
         if (orders.length === 0) {
           return (
@@ -105,7 +108,7 @@ const CustomerHomePage: React.FC = () => {
         <Stack direction="row" align="center">
           <DrawerRoot placement="start">
             <DrawerTrigger asChild>
-              <Button variant="outline" size="sm">
+              <Button color="teal" variant="outline" size="sm" backgroundColor={"white"}>
                 Menu
               </Button>
             </DrawerTrigger>
@@ -121,6 +124,9 @@ const CustomerHomePage: React.FC = () => {
                 </Button>
                 <Button onClick={() => { setCurrentSection('dashboard'); }} variant="ghost" rounded="md" w="100%">
                   Customer Dashboard
+                </Button>
+                <Button onClick={() => { setCurrentSection('profile'); }} variant="ghost" rounded="md" w="100%">
+                  Profile
                 </Button>
               </DrawerBody>
               <DrawerFooter>
