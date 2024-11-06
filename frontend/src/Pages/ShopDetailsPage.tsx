@@ -35,7 +35,7 @@ const ShopDetailsPage = () => {
     const fetchTailorDetails = async () => {
       try {
         const response = await axios.get(`http://localhost:5010/api/tailor/uid/${firebaseUidt}`);
-        setTailor(response.data);
+        setTailor(response.data[0]);
       } catch (err) {
         setError('Error fetching tailor details');
       } finally {
@@ -50,6 +50,7 @@ const ShopDetailsPage = () => {
     const orderData = {
       firebaseUidc: user?.firebaseUid,
       firebaseUidt: firebaseUidt,
+      shopName: tailor.shopName,
       deliveryDate: new Date(),
       orderStatus: 'Pending',
       amount: (tailor.dress.find(d => d.name === dress)).price.toFixed(2),
