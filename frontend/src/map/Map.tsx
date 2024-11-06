@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css'; // Ensure Leaflet's CSS is imported
 
 interface Location {
   latitude: number;
@@ -12,7 +13,6 @@ const Map: React.FC = () => {
 
   const getCurrentCityName = (position: GeolocationPosition) => {
     const { latitude, longitude } = position.coords;
-    console.log("Latitude and Longitude from Geolocation:", latitude, longitude);
     setCurrentLocation({
       latitude,
       longitude,
@@ -24,35 +24,34 @@ const Map: React.FC = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         getCurrentCityName,
-        (error) => console.error("Error getting location: ", error)
+        (error) => console.error("Error getting location: ", error),
+        { enableHighAccuracy: true }
       );
     } else {
       console.error("Geolocation is not supported by this browser.");
     }
   }, []);
 
-  useEffect(() => {
-    console.log("Updated Current Location:", currentLocation);
-  }, [currentLocation]);
-
   if (!currentLocation) {
     return <p>Loading map...</p>;
   }
 
   return (
-    <MapContainer
-      center={[currentLocation.latitude, currentLocation.longitude]}
-      zoom={13}
-      style={{ height: "100%", width: "100%" }}
-    >
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      />
-      <Marker position={[currentLocation.latitude, currentLocation.longitude]}>
-        <Popup>{currentLocation.display_name}</Popup>
-      </Marker>
-    </MapContainer>
+    <div style={{ height: "100vh", width: "100%" }}> {/* Ensure full-height and full-width */}
+      <MapContainer
+        key={`${currentLocation.latitude}-${currentLocation.longitude}`} // Re-render on location change
+        center={[currentLocation.latitude, currentLocation.longitude]}
+        zoom={13}
+        style={{ height: "100%", width: "100%" }}
+      >
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <Marker position={[currentLocation.latitude, currentLocation.longitude]}>
+          <Popup>{currentLocation.display_name}</Popup>
+        </Marker>
+      </MapContainer>
+    </div>
   );
 };
 
