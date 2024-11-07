@@ -11,6 +11,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebase';
 import axios from 'axios';
 import Map from '../map/Map'; // Import the Map component
+import MapCard from '../Components/MapCard';
 
 const RegistrationTailorOrderPage: React.FC = () => {
   const [name, setUsername] = useState('');
@@ -167,10 +168,10 @@ const RegistrationTailorOrderPage: React.FC = () => {
           <Box border="1px solid #ccc" p="16px" borderRadius="8px" mb="20px">
             <Text as="h4" fontSize="18px" mb="10px" fontFamily="Poppins" color="black">Location Preview</Text>
             <Box style={{ height: '300px', width: '100%', position: 'relative', overflow: 'hidden', borderRadius: '8px' }}>
-              <Map onLocationChange={handleLocationChange} />
+              <MapCard/>
             </Box>
-            <Text mt="10px" fontSize="16px" color="gray.600">Latitude: {currentLocation?.latitude}</Text>
-            <Text fontSize="16px" color="gray.600">Longitude: {currentLocation?.longitude}</Text>
+            {/* <Text mt="10px" fontSize="16px" color="gray.600">Latitude: {currentLocation?.latitude}</Text>
+            <Text fontSize="16px" color="gray.600">Longitude: {currentLocation?.longitude}</Text> */}
           </Box>
 
           <Button mt={4} colorScheme="teal" onClick={handleRegister}>Continue</Button>

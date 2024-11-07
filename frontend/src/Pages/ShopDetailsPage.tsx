@@ -9,6 +9,7 @@ import { Fieldset, Input, Stack } from "@chakra-ui/react";
 import { Field } from "../Components/ui/field";
 import { useUserContext } from '../UserContext';
 import { Toaster, toaster } from "../Components/ui/toaster"
+import MapCard from '../Components/MapCard';
 
 
 const ShopDetailsPage = () => {
@@ -250,12 +251,14 @@ const ShopDetailsPage = () => {
               )}
             </DialogRoot>
             <HStack>
-              <Button>Contact the Tailor</Button>
+              
               <Button variant="outline" onClick={() => navigate(-1)}>Cancel</Button>
             </HStack>
           </VStack>
         </Center>
       </Box>
+      <br></br>
+      <MapCard/>
       <Footer />
     </>
   );
