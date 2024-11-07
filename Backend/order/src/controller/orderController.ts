@@ -80,4 +80,19 @@ export const OrderController = {
             res.status(500).send('Server Error');
         }
     },
+
+    //delete order by orderId
+    deleteOrderByCustomer: async (req: Request, res: Response) => {
+        const orderId = req.params.orderId;
+        try {
+            const deletedOrder = await OrderModel.findByIdAndDelete(orderId);
+            if (deletedOrder) {
+                res.json(deletedOrder);
+            } else {
+                res.status(404).send('Order not found');
+            }
+        } catch (error) {
+            res.status(500).send('Server Error');
+        }
+    },
 };

@@ -40,7 +40,11 @@ const LoginPage: React.FC = () => {
         } else if (role === 'customer') {
           setUser(userDoc.data);
           navigate('/customerhome');
-        } else {
+        } else if (role === 'admin') {
+          setUser(userDoc.data);
+          navigate('/adminhome');
+        }
+        else {
           setError('Unknown user role');
         }
       } else {

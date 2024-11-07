@@ -8,7 +8,10 @@ export interface Dress {
 export interface Tailor extends Document {
     name: string;
     shopName: string;
-    location: string; 
+    location: {
+        latitude: number
+        longitude: number
+      };    
     email: string;
     phone: string;
     revenue: number;
@@ -31,7 +34,10 @@ const dressSchema = new Schema<Dress>({
 const tailorSchema = new Schema<Tailor>({
     name: { type: String, required: true },
     shopName: { type: String, required: true },
-    location: { type: String, required: false }, 
+    location: {
+        latitude: { type: Number, required: true },
+        longitude: { type: Number, required: true }
+      },    
     phone: { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true },

@@ -35,6 +35,7 @@ interface Dress {
     sleeve: number;
     inseam: number;
     collar: number;
+    shoulder: number;
 }
 
 const OrdersTailor: React.FC = () => {
@@ -46,11 +47,11 @@ const OrdersTailor: React.FC = () => {
     const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
     const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
     const [measurements, setMeasurements] = useState<Dress[]>([]);
+    const [cname, setCname] = useState("");
 
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                console.log(user);
                 const response = await axios.get(`http://localhost:5010/api/order/tailor/${user?.firebaseUid}`);
                 setOrders(response.data);
                 setUpdatedOrders(response.data);
@@ -101,6 +102,7 @@ const OrdersTailor: React.FC = () => {
             const response = await axios.get(`http://localhost:5010/api/measurement/${order._id}`);
             setMeasurements(response.data[0].dressMeasures || []); 
             console.log(measurements);
+
         } catch (error) {
             console.error("Error fetching measurements:", error);
             setMeasurements([]); // Reset on error
@@ -127,7 +129,7 @@ const OrdersTailor: React.FC = () => {
                         <Table.Body>
                             {updatedOrders.map((order) => (
                                 <Table.Row key={order._id}>
-                                    <Table.Cell>{order.customerId}</Table.Cell>
+                                    <Table.Cell>{order.firebaseUidc}</Table.Cell>
                                     <Table.Cell>{new Date(order.deliveryDate).toLocaleDateString()}</Table.Cell>
                                     <Table.Cell>
                                         <ul>

@@ -1,9 +1,13 @@
 // src/pages/TailorHomePage.tsx
-import React, { useState } from 'react';
-import { Box, Button, Container, Heading,  } from '@chakra-ui/react';
+import React, { useState, useEffect } from 'react';
+import { Box, Button, Container, Heading } from '@chakra-ui/react';
 import OrdersTable from '../Components/OrderTailor';
 import TopBarTailor from '../Components/TopBarTailor';
 import Footer from '../Components/Footer';
+import { useNavigate } from 'react-router-dom';
+import { useUserContext } from '../UserContext'; 
+import TailorProfile from '../Components/Profile'; // Import TailorProfile
+
 import {
   DrawerActionTrigger,
   DrawerBackdrop,
@@ -16,20 +20,37 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "../Components/ui/drawer";
-import Profile from '../Components/Profile';
 import TailorReportsPage from './TailorReportsPage';
+import axios from 'axios';
 
 const TailorHome: React.FC = () => {
+  const navigate = useNavigate();
+  const { user, logout } = useUserContext();
+
+
   const [currentSection, setCurrentSection] = useState<'orders' | 'profile' | 'reports'>('orders');
+  const [tailorData, setTailorData] = useState<any>(null); // Placeholder for fetching tailor data
+
+  // Fetch tailor profile data (simulate with useEffect or use your API)
+  useEffect(() => {
+    // Example API call to fetch tailor data, replace with actual data fetching
+    const fetchTailorData = async () => {
+      console.log(user?.firebaseUid)
+      const res = await axios.get(`http://localhost:5010/api/tailor/uid/${user?.firebaseUid}`) // Replace with your actual API
+      setTailorData(res.data[0]); 
+      console.log(tailorData)
+    };
+    fetchTailorData();
+  }, []);
 
   const renderSection = () => {
     switch (currentSection) {
       case 'orders':
         return <OrdersTable />;
       case 'profile':
-        return <Profile />;
+        return tailorData ? <TailorProfile {...tailorData} /> : <p>Loading profile...</p>;
       case 'reports':
-        return <TailorReportsPage/>; 
+        return <TailorReportsPage />;
       default:
         return null;
     }

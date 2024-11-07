@@ -1,57 +1,58 @@
-import React, { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+// src/Map/map.tsx
+import React, { useState, useEffect } from 'react';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
-interface Location {
-  latitude: number;
-  longitude: number;
-  display_name: string;
+interface MapProps {
+  onLocationChange: (lat: number, lng: number) => void;
 }
 
-const Map: React.FC = () => {
-  const [currentLocation, setCurrentLocation] = useState<Location | null>(null);
+// Fix for marker icon paths
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+});
 
-  const getCurrentCityName = (position: GeolocationPosition) => {
-    const { latitude, longitude } = position.coords;
-    console.log("Latitude and Longitude from Geolocation:", latitude, longitude);
-    setCurrentLocation({
-      latitude,
-      longitude,
-      display_name: "Your current location",
-    });
-  };
+const RecenterMap = ({ lat, lng }: { lat: number; lng: number }) => {
+  const map = useMap();
+  map.setView([lat, lng], 13); // Recenter map with updated location
+  return null;
+};
 
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        getCurrentCityName,
-        (error) => console.error("Error getting location: ", error)
-      );
-    } else {
-      console.error("Geolocation is not supported by this browser.");
-    }
-  }, []);
+const Map: React.FC<MapProps> = ({ onLocationChange }) => {
+  const [currentLocation, setCurrentLocation] = useState<{ latitude: number; longitude: number } | null>(null);
 
   useEffect(() => {
-    console.log("Updated Current Location:", currentLocation);
-  }, [currentLocation]);
-
-  if (!currentLocation) {
-    return <p>Loading map...</p>;
-  }
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        setCurrentLocation({ latitude, longitude });
+        onLocationChange(latitude, longitude);
+      },
+      (error) => {
+        console.error('Error getting location:', error);
+      }
+    );
+  }, [onLocationChange]);
 
   return (
     <MapContainer
-      center={[currentLocation.latitude, currentLocation.longitude]}
+      center={currentLocation ? [currentLocation.latitude, currentLocation.longitude] : [51.505, -0.09]}
       zoom={13}
-      style={{ height: "100%", width: "100%" }}
+      style={{ width: '100%', height: '300px', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.15)', borderRadius: '8px' }}
     >
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      />
-      <Marker position={[currentLocation.latitude, currentLocation.longitude]}>
-        <Popup>{currentLocation.display_name}</Popup>
-      </Marker>
+      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+      {currentLocation && (
+        <>
+          <RecenterMap lat={currentLocation.latitude} lng={currentLocation.longitude} />
+          <Marker position={[currentLocation.latitude, currentLocation.longitude]}>
+            <Popup>Your Location</Popup>
+          </Marker>
+        </>
+      )}
     </MapContainer>
   );
 };

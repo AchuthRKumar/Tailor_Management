@@ -18,8 +18,10 @@ const AdminDashboardPage: React.FC = () => {
   useEffect(() => {
     const fetchCustomers = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/customer');
+        const response = await axios.get('http://localhost:5010/api/customer');
         setUsers(response.data); // Assuming response.data contains an array of customers
+        const res = await axios.get('http://localhost:5010/api/tailor/');
+        setTailors(res.data); // Assuming response.data contains an array of tailors
         setLoading(false);
       } catch (error) {
         setError("Failed to fetch customers");
@@ -96,7 +98,7 @@ const AdminDashboardPage: React.FC = () => {
                     <Table.Row key={user.id}>
                       <Table.Cell>{user.name}</Table.Cell>
                       <Table.Cell>{user.email}</Table.Cell>
-                      <Table.Cell>{user.phno}</Table.Cell>
+                      <Table.Cell>{user.phone}</Table.Cell>
                       <Table.Cell>
                         <Button colorScheme="red" onClick={() => handleRemoveUser(user.id)}>
                           Remove
@@ -131,7 +133,8 @@ const AdminDashboardPage: React.FC = () => {
                   .map(tailor => (
                     <Table.Row key={tailor.id}>
                       <Table.Cell>{tailor.name}</Table.Cell>
-                      <Table.Cell>{tailor.rating}</Table.Cell>
+                      <Table.Cell>{tailor.email}</Table.Cell>
+                      <Table.Cell>{tailor.phone}</Table.Cell>
                       <Table.Cell>
                         <Button colorScheme="red" onClick={() => handleRemoveTailor(tailor.id)}>
                           Remove

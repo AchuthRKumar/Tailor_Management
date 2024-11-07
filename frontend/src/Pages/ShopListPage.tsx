@@ -84,7 +84,7 @@ const ShopListPage = () => {
                   <Text>
                     {specificDress.name}: ₹{specificDress.price.toFixed(2)}
                   </Text>
-                  <Rating value={tailor.averageRating} readOnly />
+                  <Rating allowHalf value={tailor.averageRating} readOnly />
                 </Card.Body>
                 <Card.Footer justifyContent="flex-end">
                   <Button variant="outline" onClick={() => handlePlaceOrder(tailor.firebaseUid)}>

@@ -1,103 +1,114 @@
-import React, { useState } from "react";
-import {
-  Box,
-  Heading,
-  HStack,
-  IconButton,
-  Editable,
-  EditablePreview,
-  EditableInput,
-} from "@chakra-ui/react";
-import { LuCheck, LuPencilLine, LuX } from "react-icons/lu";
-import { Radio, RadioGroup } from "../Components/ui/radio"; // Adjust the import path if needed
+// src/Components/TailorProfile.tsx
+import React from 'react';
+import { Box, Text, Stack, HStack, VStack, Button } from '@chakra-ui/react';
+import { Radio, RadioGroup } from "../Components/ui/radio"
 
-const Profile: React.FC = () => {
-  const [status, setStatus] = useState("open"); // Status state
-  const [deliveryOption, setDeliveryOption] = useState("yes"); // Delivery option state
+interface Location {
+  latitude: number;
+  longitude: number;
+}
 
+interface Dress {
+  name: string;
+  price: number;
+}
+
+interface TailorProfileProps {
+  name: string;
+  shopName: string;
+  location: Location;
+  email: string;
+  phone: string;
+  revenue: number;
+  ordersCount: number;
+  completed: number;
+  status: string;
+  isDelivery: string;
+  dress: Dress[];
+  firebaseUid: string;
+  role: string;
+}
+
+const TailorProfile: React.FC<TailorProfileProps> = ({
+  name,
+  shopName,
+  location,
+  email,
+  phone,
+  revenue,
+  ordersCount,
+  completed,
+  status,
+  isDelivery,
+  dress,
+  firebaseUid,
+  role,
+}) => {
   return (
-    <>
-      <Box mb={8}>
-        <Heading as="h2" size="lg" mb={4} color="teal.500">
-          Profile
-        </Heading>
-      </Box>
+    <Box maxW="800px" mx="auto" p={6} bg="white" boxShadow="lg" borderRadius="8px">
+      <Text fontSize="2xl" fontWeight="bold" mb="6">Tailor Profile</Text>
+      
+      <VStack align="start" spacing={4}>
+        {/* Tailor Name and Shop Name */}
+        <HStack spacing={4}>
+          <Text fontWeight="bold">Name:</Text>
+          <Text>{name}</Text>
+        </HStack>
 
-      {/* Status Box */}
-      <Box p={5} shadow="md" borderWidth="1px" borderRadius="md" mb={6}>
-        <Heading as="h3" size="md" mb={2}>
-          My Status
-        </Heading>
-        <RadioGroup value={status}>
-          <HStack gap="6">
-            <Radio value="open" onChange={() => setStatus("open")}>
-              I am Open
-            </Radio>
-            <Radio value="closed" onChange={() => setStatus("closed")}>
-              I am Closed
-            </Radio>
-          </HStack>
-        </RadioGroup>
-      </Box>
+        <HStack spacing={4}>
+          <Text fontWeight="bold">Shop Name:</Text>
+          <Text>{shopName}</Text>
+        </HStack>
 
-      {/* Delivery Service Availability Box */}
-      <Box p={5} shadow="md" borderWidth="1px" borderRadius="md" mb={6}>
-        <Heading as="h3" size="md" mb={2}>
-          Delivery Service Availability
-        </Heading>
-        <RadioGroup value={deliveryOption}>
-          <HStack gap="6">
-            <Radio value="yes" onChange={() => setDeliveryOption("yes")}>
-              Yes
-            </Radio>
-            <Radio value="no" onChange={() => setDeliveryOption("no")}>
-              No
-            </Radio>
-          </HStack>
-        </RadioGroup>
-      </Box>
+        {/* Tailor Contact Information */}
+        <HStack spacing={4}>
+          <Text fontWeight="bold">Email:</Text>
+          <Text>{email}</Text>
+        </HStack>
 
-      {/* Editable Fields */}
-      {[
-        { label: "Shop Name", defaultValue: "Enter shop's name" },
-        { label: "Shop Description", defaultValue: "Describe your shop..." },
-        { label: "Tailor Name", defaultValue: "Enter tailor's name" },
-        { label: "Location", defaultValue: "Enter location" },
-        { label: "Email", defaultValue: "Enter email" },
-        { label: "Phone Number", defaultValue: "Enter phone number" },
-        { label: "Clothes Type", defaultValue: "List types of clothes you stitch..." },
-      ].map(({ label, defaultValue }, index) => (
-        <Box key={index} p={5} shadow="md" borderWidth="1px" borderRadius="md" mb={6}>
-          <Heading as="h3" size="md" mb={2}>
-            {label}
-          </Heading>
-          <Editable.Root defaultValue={defaultValue}>
-            <HStack>
-              <EditablePreview />
-              <EditableInput />
-              <Editable.Control>
-                <Editable.EditTrigger asChild>
-                  <IconButton variant="ghost" size="xs" aria-label="Edit">
-                    <LuPencilLine />
-                  </IconButton>
-                </Editable.EditTrigger>
-                <Editable.CancelTrigger asChild>
-                  <IconButton variant="outline" size="xs" aria-label="Cancel">
-                    <LuX />
-                  </IconButton>
-                </Editable.CancelTrigger>
-                <Editable.SubmitTrigger asChild>
-                  <IconButton variant="outline" size="xs" aria-label="Save">
-                    <LuCheck />
-                  </IconButton>
-                </Editable.SubmitTrigger>
-              </Editable.Control>
+        <HStack spacing={4}>
+          <Text fontWeight="bold">Phone:</Text>
+          <Text>{phone}</Text>
+        </HStack>
+
+        
+
+        <HStack spacing={4}>
+          <Text fontWeight="bold">Status:</Text>
+            <RadioGroup value={status} >
+              <HStack gap="6">
+                <Radio value="open">Open</Radio>
+                <Radio value="closed">Closed</Radio>
+              </HStack>
+            </RadioGroup>
+        </HStack>
+
+        <HStack spacing={4}>
+          <Text fontWeight="bold">Delivery Option:</Text>
+          <RadioGroup value={isDelivery} >
+              <HStack gap="6">
+                <Radio value="Yes">Yes</Radio>
+                <Radio value="No">No</Radio>
+              </HStack>
+            </RadioGroup>
+        </HStack>
+
+        {/* List of Dresses */}
+        <VStack align="start" spacing={2}>
+          <Text fontWeight="bold">Dress Options and Prices:</Text>
+          {dress.map((item, index) => (
+            <HStack key={index} spacing={4}>
+              <Text fontWeight="bold">{item.name}:</Text>
+              <Text>{`${item.price.toFixed(2)}`}</Text>
             </HStack>
-          </Editable.Root>
-        </Box>
-      ))}
-    </>
+          ))}
+        </VStack>
+
+        {/* Edit Profile Button */}
+        <Button colorScheme="blue" mt="4">Edit Profile</Button>
+      </VStack>
+    </Box>
   );
 };
 
-export default Profile;
+export default TailorProfile;
