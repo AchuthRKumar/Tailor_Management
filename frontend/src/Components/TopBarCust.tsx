@@ -1,10 +1,12 @@
 // src/components/TopBar.tsx
 import React, { useEffect, useState } from 'react';
-import { Stack, Flex, Heading, HStack, Button, Text,  } from '@chakra-ui/react';
+import { Stack, Flex, Heading, HStack, Button, Text, Box,  } from '@chakra-ui/react';
 import { Avatar } from './ui/avatar';
 import { useNavigate } from 'react-router-dom';
 import { useUserContext } from '../UserContext';
 import axios from 'axios';
+import {MenuContent, MenuItem, MenuRoot, MenuTrigger,} from "../Components/ui/menu";
+
 
 interface CustomerData {
   name: string,
@@ -20,6 +22,10 @@ const TopBarCust: React.FC = () => {
   const { user, logout } = useUserContext();
   const [customerdata, setCustomerData] = useState<CustomerData | null>(null);
 
+  const handleLogout=() => {
+    logout();
+    navigate('/login');
+  }
   const navigate = useNavigate() ;
 
   useEffect( () => {
@@ -40,16 +46,23 @@ const TopBarCust: React.FC = () => {
     navigate('/customerhome');
   }
   return (
-    <Flex as="header" padding="1rem" bg="teal.500" color="white" justifyContent="space-between">
+    <Box as="header" display="flex" padding="2rem" alignItems="center" bg="teal.500" color="white" justifyContent="space-between">
       <Heading as="h2"  fontFamily="Newsreader" fontSize="2rem">TAILORNEST</Heading>
       <HStack>
-        <Button variant="link" color="black" onClick={handleHome}>Home</Button>
-        <Avatar size="xs" name={customerdata?.name} variant="solid" />
+        <Button variant="link" color="black"  onClick={handleHome}>Home</Button>
+        <MenuRoot >
+            <MenuTrigger asChild>
+            <Avatar size="xs" name={customerdata?.name} variant="solid" />
+            </MenuTrigger>
+            <MenuContent>
+              <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            </MenuContent>
+          </MenuRoot>
         <Stack gap="0">
             <Text fontWeight="medium">{customerdata?.name}</Text>
           </Stack>
       </HStack>
-    </Flex>
+    </Box>
   );
 };
 

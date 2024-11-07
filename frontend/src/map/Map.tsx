@@ -1,57 +1,38 @@
-import React, { useEffect, useState } from 'react';
+// src/Map/map.tsx
+import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css'; // Ensure Leaflet's CSS is imported
+import L from 'leaflet';
 
-interface Location {
-  latitude: number;
-  longitude: number;
-  display_name: string;
+interface MapProps {
+  onLocationChange: (lat: number, lng: number) => void; // Callback to pass the location up
 }
 
-const Map: React.FC = () => {
-  const [currentLocation, setCurrentLocation] = useState<Location | null>(null);
-
-  const getCurrentCityName = (position: GeolocationPosition) => {
-    const { latitude, longitude } = position.coords;
-    setCurrentLocation({
-      latitude,
-      longitude,
-      display_name: "Your current location",
-    });
-  };
+const Map: React.FC<MapProps> = ({ onLocationChange }) => {
+  const [currentLocation, setCurrentLocation] = useState<{ latitude: number; longitude: number } | null>(null);
 
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        getCurrentCityName,
-        (error) => console.error("Error getting location: ", error),
-        { enableHighAccuracy: true }
-      );
-    } else {
-      console.error("Geolocation is not supported by this browser.");
-    }
-  }, []);
-
-  if (!currentLocation) {
-    return <p>Loading map...</p>;
-  }
+    // Get the user's current position
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        setCurrentLocation({ latitude, longitude });
+        onLocationChange(latitude, longitude); // Pass location up to parent
+      },
+      (error) => {
+        console.error('Error getting location:', error);
+      }
+    );
+  }, [onLocationChange]);
 
   return (
-    <div style={{ height: "100vh", width: "100%" }}> {/* Ensure full-height and full-width */}
-      <MapContainer
-        key={`${currentLocation.latitude}-${currentLocation.longitude}`} // Re-render on location change
-        center={[currentLocation.latitude, currentLocation.longitude]}
-        zoom={13}
-        style={{ height: "100%", width: "100%" }}
-      >
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
+    <MapContainer center={[51.505, -0.09]} zoom={13} style={{ width: '100%', height: '300px' }}>
+      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+      {currentLocation && (
         <Marker position={[currentLocation.latitude, currentLocation.longitude]}>
-          <Popup>{currentLocation.display_name}</Popup>
+          <Popup>Your Location</Popup>
         </Marker>
-      </MapContainer>
-    </div>
+      )}
+    </MapContainer>
   );
 };
 

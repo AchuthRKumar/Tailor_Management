@@ -34,8 +34,11 @@ const ShopDetailsPage = () => {
   });
   const [reviews, setReviews] = useState([]); // state to hold reviews
   const roundToHalf = (number) => {
+    if (number === 0) {
+        return 2;
+    }
     return Math.round(number * 2) / 2;
-  };
+};
   
 
   useEffect(() => {

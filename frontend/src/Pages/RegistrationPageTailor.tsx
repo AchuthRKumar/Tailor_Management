@@ -8,9 +8,9 @@ import { Radio, RadioGroup } from "../Components/ui/radio";
 import { useNavigate } from 'react-router-dom';
 import Footer from '../Components/Footer';
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
-import { auth, db } from '../firebase';
+import { auth } from '../firebase';
 import axios from 'axios';
+import Map from '../map/Map'; // Import the Map component
 
 const RegistrationTailorOrderPage: React.FC = () => {
   const [name, setUsername] = useState('');
@@ -23,17 +23,17 @@ const RegistrationTailorOrderPage: React.FC = () => {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [priceMap, setPriceMap] = useState<{ [key: string]: string }>({});
   const [isDelivery, setIsDelivery] = useState('No');
+  const [currentLocation, setCurrentLocation] = useState<{ latitude: number; longitude: number } | null>(null);
   const navigate = useNavigate();
 
   const handleCancel = () => {
-    navigate('/'); 
+    navigate('/');
   };
 
   const handleRegister = async () => {
     setErrors({});
     const newErrors: { [key: string]: string } = {};
-
-    // Validation logic
+  
     if (!name) newErrors.name = "Please enter your name.";
     if (!email) newErrors.email = "Please enter your email.";
     if (!/\S+@\S+\.\S+/.test(email)) newErrors.email = "Please enter a valid email address.";
@@ -43,23 +43,22 @@ const RegistrationTailorOrderPage: React.FC = () => {
     if (!password) newErrors.password = "Please create a password.";
     if (password.length < 6) newErrors.password = "Password must be at least 6 characters long.";
     if (password !== confirmPassword) newErrors.confirmPassword = "Passwords do not match.";
-
+  
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
-
+  
     try {
-      // Create user in Firebase Auth
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-
-      // Prepare tailor data
+  
       const dressData = selectedOptions.map(option => ({
         name: option,
         price: priceMap[option],
       }));
-
+  
+      // Include location in the tailorData object
       const tailorData = {
         name,
         shopName,
@@ -70,23 +69,27 @@ const RegistrationTailorOrderPage: React.FC = () => {
         dress: dressData,
         role: "tailor",
         firebaseUid: user.uid,
+        location: currentLocation // Include location with latitude and longitude
       };
-
+  
       const tailort = {
         firebaseUid: user.uid,
         name,
         role: "tailor"
-      }
-      const res = await axios.post('http://localhost:5010/api/tailor', tailorData);
+      };
+  
+      // Send location along with the rest of the data
+      await axios.post('http://localhost:5010/api/tailor', tailorData);
       await axios.post('http://localhost:5010/api/user', tailort);
       
       alert('Registration successful!');
-      navigate('/'); // Redirect after successful registration
+      navigate('/');
     } catch (error) {
       console.error('Error registering tailor:', error);
       alert('Registration failed. Please try again.');
     }
   };
+  
 
   const handleOptionChange = (option: string) => {
     setSelectedOptions((prev) =>
@@ -99,105 +102,43 @@ const RegistrationTailorOrderPage: React.FC = () => {
   };
 
   const orderOptions = [
-    "Shirts", 
-    "Pants", 
-    "Kurta",
-    "Palazzo Pants",
-    "Sherwani",
-    "Suits", 
-    "Blazers",
-    "Salwaar Kameez",
-    "Skirts", 
-    "Lehengas",
-    "Anarkali Suits",
-    "Tops",  
+    "Shirts", "Pants", "Kurta", "Palazzo Pants", "Sherwani", "Suits", 
+    "Blazers", "Salwaar Kameez", "Skirts", "Lehengas", "Anarkali Suits", "Tops",
   ];
+
+  const handleLocationChange = (lat: number, lng: number) => {
+    setCurrentLocation({ latitude: lat, longitude: lng });
+  };
 
   return (
     <>
-      <Box
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        minHeight="100vh"
-        bg="linear-gradient(to right, #a8e6cf, #dcedc1)"
-        padding="20px"
-      >
-        <Box
-          maxW="500px"
-          p={6}
-          bg="white"
-          boxShadow="md"
-          borderRadius="10px"
-          textAlign="center"
-        >
-          <Text as="h2" className="card-title">
-            Register As Tailor
-          </Text>
-          <Text mb="20px" fontFamily="Poppins" fontSize="16px" color="gray.600">
-            Create your tailor account by filling out the details below.
-          </Text>
+      <Box display="flex" alignItems="center" justifyContent="center" minHeight="100vh" bg="linear-gradient(to right, #a8e6cf, #dcedc1)" padding="20px">
+        <Box maxW="500px" p={6} bg="white" boxShadow="md" borderRadius="10px" textAlign="center">
+          <Text as="h2" className="card-title">Register As Tailor</Text>
+          <Text mb="20px" fontFamily="Poppins" fontSize="16px" color="gray.600">Create your tailor account by filling out the details below.</Text>
           <Stack mb="20px">
             <Field label="Tailor Name">
-              <Input
-                className="input-field"
-                placeholder="Enter your name"
-                value={name}
-                onChange={(e) => setUsername(e.target.value)}
-                isInvalid={!!errors.name}
-              />
+              <Input placeholder="Enter your name" value={name} onChange={(e) => setUsername(e.target.value)} isInvalid={!!errors.name} />
               {errors.name && <Text color="red.500" fontSize="sm">{errors.name}</Text>}
             </Field>
             <Field label="Email">
-              <Input
-                className="input-field"
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                isInvalid={!!errors.email}
-              />
+              <Input type="email" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} isInvalid={!!errors.email} />
               {errors.email && <Text color="red.500" fontSize="sm">{errors.email}</Text>}
             </Field>
             <Field label="Phone Number">
-              <Input
-                className="input-field"
-                type="tel"
-                placeholder="Enter your phone number"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                isInvalid={!!errors.phone}
-              />
+              <Input type="tel" placeholder="Enter your phone number" value={phone} onChange={(e) => setPhone(e.target.value)} isInvalid={!!errors.phone} />
               {errors.phone && <Text color="red.500" fontSize="sm">{errors.phone}</Text>}
             </Field>
             <Field label="Shop Name">
-              <Input
-                className="input-field"
-                placeholder="Enter your Shop name"
-                value={shopName}
-                onChange={(e) => setShopName(e.target.value)}
-                isInvalid={!!errors.shopName}
-              />
+              <Input placeholder="Enter your Shop name" value={shopName} onChange={(e) => setShopName(e.target.value)} isInvalid={!!errors.shopName} />
               {errors.shopName && <Text color="red.500" fontSize="sm">{errors.shopName}</Text>}
             </Field>
             <Field label="Password">
-              <PasswordInput
-                className="input-field"
-                placeholder="Create a password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                isInvalid={!!errors.password}
-              />
+              <PasswordInput placeholder="Create a password" value={password} onChange={(e) => setPassword(e.target.value)} isInvalid={!!errors.password} />
               {errors.password && <Text color="red.500" fontSize="sm">{errors.password}</Text>}
             </Field>
             <Field label="Confirm Password">
-              <PasswordInput
-                className="input-field"
-                placeholder="Confirm your password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                isInvalid={!!errors.confirmPassword}
-              />
+              <PasswordInput placeholder="Confirm your password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} isInvalid={!!errors.confirmPassword} />
               {errors.confirmPassword && <Text color="red.500" fontSize="sm">{errors.confirmPassword}</Text>}
             </Field>
             <Field label="Do you deliver/take orders">
@@ -210,40 +151,30 @@ const RegistrationTailorOrderPage: React.FC = () => {
             </Field>
           </Stack>
 
-          <Text as="h3" fontSize="20px" fontWeight="bold" mb="16px" fontFamily="Poppins" color="black">
-            What orders do you take?
-          </Text>
+          <Text as="h3" fontSize="20px" fontWeight="bold" mb="16px" fontFamily="Poppins" color="black">What orders do you take?</Text>
           <Stack mb="20px">
             {orderOptions.map((option) => (
-              <Checkbox
-                key={option}
-                checked={selectedOptions.includes(option)}
-                onChange={() => handleOptionChange(option)}
-                fontSize="lg"
-                fontFamily="Poppins"
-                colorScheme="green"
-              >
-                {option}
-              </Checkbox>
+              <Checkbox key={option} checked={selectedOptions.includes(option)} onChange={() => handleOptionChange(option)} fontSize="lg" fontFamily="Poppins" colorScheme="green">{option}</Checkbox>
             ))}
           </Stack>
           {selectedOptions.map((option) => (
             <Field key={option} label={`Price for ${option}`}>
-              <Input
-                type="number"
-                placeholder="Enter price"
-                value={priceMap[option] || ''}
-                onChange={(e) => handlePriceChange(option, e.target.value)}
-              />
+              <Input type="number" placeholder="Enter price" value={priceMap[option] || ''} onChange={(e) => handlePriceChange(option, e.target.value)} />
             </Field>
           ))}
 
-          <Button mt={4} colorScheme="teal" onClick={handleRegister}>
-            Continue
-          </Button>
-          <Button mt={4} ml={4} variant="outline" onClick={handleCancel}>
-            Cancel
-          </Button>
+          {/* Card for Map Preview */}
+          <Box border="1px solid #ccc" p="16px" borderRadius="8px" mb="20px">
+            <Text as="h4" fontSize="18px" mb="10px" fontFamily="Poppins" color="black">Location Preview</Text>
+            <Box style={{ height: '300px', width: '100%', position: 'relative', overflow: 'hidden', borderRadius: '8px' }}>
+              <Map onLocationChange={handleLocationChange} />
+            </Box>
+            <Text mt="10px" fontSize="16px" color="gray.600">Latitude: {currentLocation?.latitude}</Text>
+            <Text fontSize="16px" color="gray.600">Longitude: {currentLocation?.longitude}</Text>
+          </Box>
+
+          <Button mt={4} colorScheme="teal" onClick={handleRegister}>Continue</Button>
+          <Button mt={4} ml={4} variant="outline" onClick={handleCancel}>Cancel</Button>
         </Box>
       </Box>
       <Footer />

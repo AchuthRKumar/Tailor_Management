@@ -54,6 +54,12 @@ const CustomerHomePage: React.FC = () => {
     setSelectedOrderId(orderId);
   };
 
+  const handleCancelClick = async(orderId: string) => {
+    console.log(orderId);
+    const res = await axios.delete(`http://localhost:5010/api/order/customer/${orderId}`);
+  }
+
+
   const handleReviewSubmit = async () => {
     if (!selectedOrderId) return;
 
@@ -132,6 +138,14 @@ const CustomerHomePage: React.FC = () => {
                             Review
                           </Button>
                         )}
+
+                        {
+                          order.orderStatus === 'Pending' && (
+                            <Button size="sm" onClick={() => handleCancelClick(order._id)}>
+                              Cancel
+                            </Button>
+                          )
+                        }
                       </Table.Cell>
                     </Table.Row>
                     {/* Conditionally render review card for selected order */}
