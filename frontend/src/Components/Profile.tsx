@@ -71,11 +71,7 @@ const TailorProfile: React.FC<TailorProfileProps> = ({
           <Text>{phone}</Text>
         </HStack>
 
-        {/* Location Information */}
-        <HStack spacing={4}>
-          <Text fontWeight="bold">Location:</Text>
-          <Text>{`Latitude: ${location.latitude}, Longitude: ${location.longitude}`}</Text>
-        </HStack>
+        
 
         <HStack spacing={4}>
           <Text fontWeight="bold">Status:</Text>

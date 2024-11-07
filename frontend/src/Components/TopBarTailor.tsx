@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Stack, Flex, Heading, HStack, Button, Text, Circle, Float, Avatar } from "@chakra-ui/react"
 import { useUserContext } from '../UserContext';
 import axios from 'axios';
+import {MenuContent, MenuItem, MenuRoot, MenuTrigger,} from "../Components/ui/menu";
+import { useNavigate } from 'react-router-dom';
+
 
  interface Dress {
   name: string;
@@ -30,6 +33,13 @@ const TopBar: React.FC = () => {
   const { user, logout } = useUserContext();
   const [tailorData, setTailorData] = useState<TailorData | null>(null);
 
+  const navigate = useNavigate();
+
+  const handleLogout=() => {
+    logout();
+    navigate('/');
+  }
+
   useEffect(() => {
     const fetchTailorData = async () => {
       if (user?.firebaseUid) {
@@ -53,17 +63,25 @@ const TopBar: React.FC = () => {
       <HStack spacing={4}>
         <Button variant="link" color="black">Home</Button>
         <Button variant="link" color="black">Reports</Button>
-        
-        <Avatar.Root colorPalette="green" variant="subtle">
-          <Float placement="bottom-end" offsetX="1" offsetY="1">
-        <Circle
-          bg={statusColor}
-          size="8px"
-          outline="0.2em solid"
-          outlineColor="bg"
-        />
-      </Float>
+        <MenuRoot >
+            <MenuTrigger asChild>
+            <Avatar.Root colorPalette="green" variant="subtle">
+            <Float placement="bottom-end" offsetX="1" offsetY="1">
+              <Circle
+                bg={statusColor}
+                size="8px"
+                outline="0.2em solid"
+                outlineColor="bg"
+              />
+            </Float>
         </Avatar.Root>
+            </MenuTrigger>
+            <MenuContent>
+              <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            </MenuContent>
+          </MenuRoot>
+        
+          
         
         <Stack gap="0">
           <Text fontWeight="medium">{tailorData?.name || user?.name}</Text>

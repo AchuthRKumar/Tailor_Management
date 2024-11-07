@@ -24,7 +24,7 @@ const TopBarCust: React.FC = () => {
 
   const handleLogout=() => {
     logout();
-    navigate('/login');
+    navigate('/');
   }
   const navigate = useNavigate() ;
 
