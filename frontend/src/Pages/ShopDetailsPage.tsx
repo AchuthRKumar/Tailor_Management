@@ -38,8 +38,10 @@ const ShopDetailsPage = () => {
   const roundToHalf = (number) => {
     if (number === 0) {
         setEstimatedDeliveryDays(2);
+        return 2;
     }
     setEstimatedDeliveryDays(Math.round(number * 2) / 2);
+    return Math.round(number * 2) / 2;
 };
   
 

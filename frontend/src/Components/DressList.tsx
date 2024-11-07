@@ -61,13 +61,9 @@ const dressItems = [
     {
         title: "Churidar Tops",
         description: "Elegantly designed, this churidar top features intricate patterns and a flattering silhouette, perfect for pairing with churidar pants for a classic and sophisticated look.",
-        image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-    },
-    {
-        title: "Others",
-        description: "Did not find what you are looking for?...Click here to",
         image: "https://th.bing.com/th/id/OIP.OEwFCxWkaGIycKmL_7lJEQAAAA?w=189&h=259&c=7&r=0&o=5&pid=1.7"
-    }
+    },
+    
 ];
 
 const DressList: React.FC = () => {
