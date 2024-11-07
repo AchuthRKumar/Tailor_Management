@@ -10,6 +10,7 @@ import { Field } from "../Components/ui/field";
 import { useUserContext } from '../UserContext';
 import { Toaster, toaster } from "../Components/ui/toaster"
 import MapCard from '../Components/MapCard';
+import jsPDF from 'jspdf';
 
 
 const ShopDetailsPage = () => {
@@ -36,9 +37,9 @@ const ShopDetailsPage = () => {
   const [reviews, setReviews] = useState([]); // state to hold reviews
   const roundToHalf = (number) => {
     if (number === 0) {
-        return 2;
+        setEstimatedDeliveryDays(2);
     }
-    return Math.round(number * 2) / 2;
+    setEstimatedDeliveryDays(Math.round(number * 2) / 2);
 };
   
 
@@ -78,6 +79,36 @@ const ShopDetailsPage = () => {
     fetchTailorDetails();
   }, [firebaseUidt]);
 
+
+  const generatePDF = () => {
+    const doc = new jsPDF();
+    const { shopName } = tailor;
+    const dressName = dress;
+    const cost = tailor.dress.find(d => d.name === dress)?.price.toFixed(2);
+    const measurementEntries = Object.entries(dressM)
+      .filter(([_, value]) => value > 0)
+      .map(([key, value]) => `${key.charAt(0).toUpperCase() + key.slice(1)}: ${value} inches`);
+  
+    // Title
+    doc.setFontSize(16);
+    doc.text('Order Summary', 20, 20);
+  
+    // Content
+    doc.setFontSize(12);
+    doc.text(`Dress: ${dressName}`, 20, 30);
+    doc.text(`Shop: ${shopName}`, 20, 40);
+    doc.text(`Cost: $${cost}`, 20, 50);
+    doc.text('Measurements:', 20, 60);
+  
+    // Measurements List
+    measurementEntries.forEach((entry, index) => {
+      doc.text(entry, 20, 70 + (index * 10));
+    });
+  
+    // Save the PDF
+    doc.save(`Order_Summary_${shopName}_${dressName}.pdf`);
+  };
+
   const handleReviewOrder = () => {
     setShowSummary(true);
   };
@@ -114,6 +145,7 @@ const ShopDetailsPage = () => {
 
     await axios.post('http://localhost:5010/api/measurement/', measurementData);
     setShowSummary(false); // Close summary dialog after placing the order
+    generatePDF();
     navigate('/customerhome');
   };
 
