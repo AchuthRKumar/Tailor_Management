@@ -12,7 +12,6 @@ import { Toaster, toaster } from "../Components/ui/toaster"
 import MapCard from '../Components/MapCard';
 import jsPDF from 'jspdf';
 
-
 const ShopDetailsPage = () => {
   const { user } = useUserContext();
   const { firebaseUidt, dress } = useParams();
@@ -193,7 +192,7 @@ const ShopDetailsPage = () => {
   if (loading) {
     return (
       <Center height="100vh">
-        <Spinner size="xl" />
+        <Spinner />
       </Center>
     );
   }
@@ -218,81 +217,105 @@ const ShopDetailsPage = () => {
             </HStack>
             <Text fontSize="lg" color="gray.700">{`Rating: ${rating}`}</Text>
             <Text fontSize="lg" color="gray.700">{`Estimated days to complete your order: ${estimatedDeliveryDays}`}</Text>
-
-            {/* Display reviews here */}
-            <Box mt={4}>
-              <Text fontSize="lg" fontWeight="bold">Customer Reviews:</Text>
-              {reviews.length > 0 ? (
-                <Box mt={2}>
-                  {reviews.map((review, index) => (
-                    <Box key={index} mb={2} p={3} bg="gray.100" borderRadius="md">
-                      <Text fontSize="sm" color="gray.600">{review.comment}</Text>
-                      <Text fontSize="sm" color="teal.500">Rating: {review.rating}</Text>
-                    </Box>
-                  ))}
-                </Box>
-              ) : (
-                <Text color="gray.500">No reviews yet.</Text>
-              )}
-            </Box>
-
-            <DialogRoot placement="center">
-              <DialogTrigger asChild>
-                <Button>Place Order</Button>
-              </DialogTrigger>
-              {!showSummary ? (
-                <DialogContent>
-                  <DialogHeader><DialogTitle>Enter your measurements</DialogTitle></DialogHeader>
-                  <DialogBody>
-                    <Fieldset.Root size="lg" maxW="md">
-                      <Stack>
-                        <Fieldset.HelperText>
-                          Please provide the measurements for the {dress}.
-                        </Fieldset.HelperText>
-                      </Stack>
-                      <Fieldset.Content>
-                        {renderMeasurementFields()}
-                      </Fieldset.Content>
-                    </Fieldset.Root>
-                  </DialogBody>
-                  <DialogFooter>
-                    <DialogActionTrigger asChild>
-                      <Button variant="outline">Cancel</Button>
-                    </DialogActionTrigger>
-                    <Button onClick={handleReviewOrder}>Review Order</Button>
-                  </DialogFooter>
-                  <DialogCloseTrigger />
-                </DialogContent>
-              ) : (
-                <DialogContent>
-                  <DialogHeader><DialogTitle>Order Summary</DialogTitle></DialogHeader>
-                  <DialogBody>
-                    <Text fontSize="lg" fontWeight="bold">Dress: {dress}</Text>
-                    <Text fontSize="lg">Shop: {tailor.shopName}</Text>
-                    <Text fontSize="lg">Cost: {tailor.dress.find(d => d.name === dress)?.price.toFixed(2)}</Text>
-                    <Text fontSize="lg" fontWeight="bold">Measurements:</Text>
-                    <ul>
-                      {Object.entries(dressM).map(([key, value]) => (
-                        value > 0 && <li key={key}>{`${key.charAt(0).toUpperCase() + key.slice(1)}: ${value} inches`}</li>
-                      ))}
-                    </ul>
-                  </DialogBody>
-                  <DialogFooter>
-                    <Button variant="outline" onClick={() => setShowSummary(false)}>Back to Edit</Button>
-                    <Button onClick={handlePlaceOrder}>Place Order</Button>
-                  </DialogFooter>
-                </DialogContent>
-              )}
-            </DialogRoot>
-            <HStack>
-              
-              <Button variant="outline" onClick={() => navigate(-1)}>Cancel</Button>
-            </HStack>
           </VStack>
         </Center>
+        
+        {/* Separate Review Card Above Contact Card */}
+        <Box mt={6} p={4} borderWidth={1} borderRadius="md" bg="white" boxShadow="md">
+  <Text fontSize="lg" fontWeight="bold">Customer Reviews:</Text>
+  <Box mt={2} maxHeight="200px" overflowY="auto">
+    {reviews.length > 0 ? (
+      reviews.map((review, index) => (
+        <Box 
+          key={index} 
+          mb={4} 
+          p={4} 
+          borderWidth={1} 
+          borderRadius="md" 
+          bg="white" 
+          boxShadow="md"
+        >
+          <Text fontSize="sm" color="gray.600">{review.comment.slice(0, 150)}...</Text>  {/* Limit review text */}
+          <Text fontSize="sm" color="teal.500">Rating: {review.rating}</Text>
+        </Box>
+      ))
+    ) : (
+      <Text color="gray.500">No reviews yet.</Text>
+    )}
+  </Box>
+</Box>
+
+
+        {/* Dialog for Order */}
+        <DialogRoot >
+          <DialogTrigger asChild>
+            <Button>Place Order</Button>
+          </DialogTrigger>
+          {!showSummary ? (
+            <DialogContent>
+              <DialogHeader><DialogTitle>Enter your measurements</DialogTitle></DialogHeader>
+              <DialogBody>
+                <Fieldset.Root size="lg" maxW="md">
+                  <Stack>
+                    <Fieldset.HelperText>
+                      Please provide the measurements for the {dress}.
+                    </Fieldset.HelperText>
+                  </Stack>
+                  <Fieldset.Content>
+                    {renderMeasurementFields()}
+                  </Fieldset.Content>
+                </Fieldset.Root>
+              </DialogBody>
+              <DialogFooter>
+                <DialogActionTrigger asChild>
+                  <Button variant="outline">Cancel</Button>
+                </DialogActionTrigger>
+                <Button onClick={handleReviewOrder}>Review Order</Button>
+              </DialogFooter>
+              <DialogCloseTrigger />
+            </DialogContent>
+          ) : (
+            <DialogContent>
+              <DialogHeader><DialogTitle>Order Summary</DialogTitle></DialogHeader>
+              <DialogBody>
+                <Text fontSize="lg" fontWeight="bold">Dress: {dress}</Text>
+                <Text fontSize="lg">Shop: {tailor.shopName}</Text>
+                <Text fontSize="lg">Cost: {tailor.dress.find(d => d.name === dress)?.price.toFixed(2)}</Text>
+                <Text fontSize="lg" fontWeight="bold">Measurements:</Text>
+                <ul>
+                  {Object.entries(dressM).map(([key, value]) => (
+                    value > 0 && <li key={key}>{`${key.charAt(0).toUpperCase() + key.slice(1)}: ${value} inches`}</li>
+                  ))}
+                </ul>
+              </DialogBody >
+              <DialogFooter>
+                <Button variant="outline" onClick={() => setShowSummary(false)}>Back to Edit</Button>
+                <Button onClick={handlePlaceOrder}>Place Order</Button>
+              </DialogFooter>
+            </DialogContent>
+          )}
+        </DialogRoot>
+        <HStack>
+          <Button variant="outline" onClick={() => navigate(-1)}>Cancel</Button>
+        </HStack>
       </Box>
-      <br></br>
-      <MapCard/>
+      <br />
+      <HStack spacing={6} mt={6} justify="center" align="center" width="full">
+          {/* MapCard */}
+          <Box flex="1" maxW="50%">
+            <MapCard />
+          </Box>
+
+          {/* Vertical line separator */}
+          <Box borderLeft="2px solid" borderColor="gray.300" height="100%" />
+
+          {/* Contact Info */}
+          <Box flex="1" pl={4}>
+            <Text fontSize="lg" fontWeight="bold">Contact Information</Text>
+            <Text mt={2}>Phone: {tailor.phone}</Text>
+            <Text>Email: {tailor.email}</Text>
+          </Box>
+        </HStack>
       <Footer />
     </>
   );
